@@ -34,7 +34,7 @@ connection_options = {
     'host': 'localhost',
     'user': mysql_user,
     'password': mysql_password,
-    'database': 'FindMyStuff',
+    'database': 'fmp',
 	'autocommit':True    
 }
 
@@ -48,12 +48,12 @@ def main():
 
 	if request.method == 'POST':
 
-	 	email = request.form['user']
-	 	password = request.form['password']
+	 	email = request.form['email']
+	 	senha = request.form['senha']
 
-	 	pass_check = db.run("select password from user where email='"+email+"';")
+	 	pass_check = db.run("select senha from usuario where email='"+email+"';")
 
-	 	if pass_check[0] == password:
+	 	if pass_check[0] == senha:
 
 	 		return "LOGIN EFETUADO"
 	 	else:
@@ -66,14 +66,19 @@ def main():
 def register():
 
 	if request.method == 'POST':
+		nome = request.form['nome']
+		sobrenome = request.form['sobrenome']
+		sexo = request.form['sexo']
+		email = request.form['email']
+		senha = request.form['senha']
+		confirma_senha = request.form['confirma_senha']
+		
+		
+		
 
-		email = request.form['user']
-		password = request.form['password']
-		confirm_password = request.form['confirm_password']
-		name = request.form['name']
 
-		if password == confirm_password:
-			db.run("insert into user(email,name,password) VALUES('"+email+"','"+name+"','"+password+"');")
+		if senha == confirma_senha:
+			db.run("insert into usuario(nome,sobrenome,sexo,email,senha) VALUES('"+nome+"','"+sobrenome+"','"+sexo+"','"+email+"','"+senha+"');")
 
 			return redirect("/")
 
