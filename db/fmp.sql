@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `fmp`.`usuario` (
   `senha` VARCHAR(205) NOT NULL,
   `email` VARCHAR(55) NOT NULL,
   `sexo` VARCHAR(15) NULL,
+  `data_nasc` DATE NOT NULL,
   PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB;
 
@@ -40,6 +41,8 @@ CREATE TABLE IF NOT EXISTS `fmp`.`loja` (
   `endereco` VARCHAR(70) NOT NULL,
   `telefone` VARCHAR(15) NULL,
   `nome` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(55) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`loja_id`))
 ENGINE = InnoDB;
 
@@ -51,7 +54,8 @@ DROP TABLE IF EXISTS `fmp`.`produto` ;
 
 CREATE TABLE IF NOT EXISTS `fmp`.`produto` (
   `produto_id` INT NOT NULL AUTO_INCREMENT,
-  `preco` DECIMAL(5,2) UNSIGNED NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `preco` DECIMAL(7,2) UNSIGNED NOT NULL,
   `marca` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`produto_id`))
 ENGINE = InnoDB;

@@ -18,15 +18,18 @@
 		<br>
 
 		<form class="login" method="post" action="/validateLogin">
-
-				<input type="text" placeholder="Email" name="email" value="{{request.form.email}}">
-				<br>
-				<input type="password" placeholder="Senha" name="senha" value="{{request.form.senha}}">>
-				<br>
-				<input type="submit" value="Login">
-
-				<p class="login__signup">Don't have an account? &nbsp;<a name="register" href="register">Sign up</p>
+			<input type="text" placeholder="Email" name="email" value="{{request.form.email}}">
+			<br>
+			<input type="password" placeholder="Senha" name="senha" value="{{request.form.senha}}">>
+			<br>
+			<input type="submit" value="Login">
+			<p class="login__signup">Don't have an account? &nbsp;<a name="register" href="register">Sign up</p>
 		</form>
+		
+		<form action="/storeSignIn">
+    		<input type="submit" value="Store Sign In"/>
+		</form>
+		
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
   

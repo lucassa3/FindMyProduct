@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>FindMyStuff</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  <link href="../static/css/index.css" rel="stylesheet">
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+</head>
+
+<body>
+  <div class="body"></div>
+		<div class="grad"></div>
+		<div class="header">
+			<div>FindMy<span>Stuff</span></div>
+		</div>
+		<br>
+
+		<form class="login" method="post" action="/validateStoreLogin">
+			<input type="text" placeholder="Email" name="email">
+			<br>
+			<input type="password" placeholder="Senha" name="senha">
+			<br>
+			<input type="submit" value="Login">
+			<p class="login__signup">Don't have an account? &nbsp;<a name="storeRegister" href="storeRegister">Sign up as Store</p>
+		</form>
+
+  
+</body>
+</html>
