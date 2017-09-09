@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `fmp`.`usuario` (
   `usuario_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `sobrenome` VARCHAR(45) NOT NULL,
-  `senha` VARCHAR(45) NOT NULL,
+  `senha` VARCHAR(205) NOT NULL,
   `email` VARCHAR(55) NOT NULL,
   `sexo` VARCHAR(15) NULL,
   PRIMARY KEY (`usuario_id`))

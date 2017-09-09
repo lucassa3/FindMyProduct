@@ -24,7 +24,12 @@
 				<br>
 				<input type="text" placeholder="Sobrenome" name="sobrenome" value="{{request.form.sobrenome}}">
 				<br>
-				<input type="text" placeholder="Sexo" name="sexo" value="{{request.form.sexo}}">
+				<select name="sexo" placeholder="Sexo" value="{{request.form.sexo}}">
+					<option disabled selected>Sexo</option>
+					<option>Feminino</option>
+					<option>Masculino</option>
+					<option>Outro</option>
+				</select>
 				<br>
 				<input type="password" placeholder="Senha" name="senha" value="{{request.form.senha}}">
 				<br>
