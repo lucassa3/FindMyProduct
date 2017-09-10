@@ -4,12 +4,7 @@ import os
 #MySQL connection
 class ConnectionHelper:
     
-    file = 0
     entrada = []
-    connection_options = {}
-    mysql_user = 0
-    mysql_password = 0
-
     
     def __init__(self):
         self.file = open("credential.txt","r")
@@ -30,11 +25,6 @@ class ConnectionHelper:
 
         self.connection = pymysql.connect(**self.connection_options)
         
-
-        
-
-        
-    
     def run(self, query, args=None):
         with self.connection.cursor() as cursor:
             print('Executando query:')

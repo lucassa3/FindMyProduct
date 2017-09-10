@@ -16,26 +16,26 @@
 			<div>FindMy<span>Stuff</span></div>
 		</div>
 		<br>
-		<form class="login" method="post" action="/validateRegister">
+		<form class="login" method="post" action="/validateUserRegister">
 
 				<input type="text" placeholder="Email" name="email" value="{{request.form.email}}">
 				<br><br>
-				<input type="text" placeholder="Nome" name="nome" value="{{request.form.nome}}">
+				<input type="text" placeholder="Nome" name="name" value="{{request.form.name}}">
 				<br>
-				<input type="text" placeholder="Sobrenome" name="sobrenome" value="{{request.form.sobrenome}}">
+				<input type="text" placeholder="Sobrenome" name="lastname" value="{{request.form.lastname}}">
 				<br>
-				<select name="sexo" placeholder="Sexo" value="{{request.form.sexo}}">
+				<select placeholder="Sexo" name="gender" value="{{request.form.gender}}">
 					<option disabled selected>Sexo</option>
 					<option>Feminino</option>
 					<option>Masculino</option>
 					<option>Outro</option>
 				</select>
 				<br>
-				<input type="date" name="data_nasc" min="1900-12-31" max="2017-01-01">
+				<input type="date" name="birth_date" min="1900-12-31" max="2017-01-01">
 				<br>
-				<input type="password" placeholder="Senha" name="senha" value="{{request.form.senha}}">
+				<input type="password" placeholder="Senha" name="password" value="{{request.form.password}}">
 				<br>
-				<input type="password" placeholder="Confirmar Senha" name="confirma_senha" value="{{request.form.confirma_senha}}">
+				<input type="password" placeholder="Confirmar Senha" name="check_password" value="{{request.form.check_password}}">
 				<br>
 					<input type="submit" value="Register">
 		</form>

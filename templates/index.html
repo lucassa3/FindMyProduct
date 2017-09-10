@@ -20,10 +20,10 @@
 		<form class="login" method="post" action="/validateLogin">
 			<input type="text" placeholder="Email" name="email" value="{{request.form.email}}">
 			<br>
-			<input type="password" placeholder="Senha" name="senha" value="{{request.form.senha}}">>
+			<input type="password" placeholder="Senha" name="password" value="{{request.form.password}}">>
 			<br>
 			<input type="submit" value="Login">
-			<p class="login__signup">Don't have an account? &nbsp;<a name="register" href="register">Sign up</p>
+			<p class="login__signup">Don't have an account? &nbsp;<a name="userRegister" href="userRegister">Sign up</p>
 		</form>
 		
 		<form action="/storeSignIn">
