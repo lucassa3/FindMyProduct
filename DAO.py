@@ -14,7 +14,7 @@ class DAO:
 		if pass_check:
 			if check_password_hash(pass_check[0], password):
 				user_log = self.db.run("select usuario_id from usuario where email='"+email+"';")
-				return user_log
+				return user_log[0]
 
 		return False
 
@@ -25,7 +25,7 @@ class DAO:
 		if pass_check:
 			if check_password_hash(pass_check[0], password):
 				store_log = self.db.run("select loja_id from loja where email='"+email+"';")
-				return store_log
+				return store_log[0]
 
 		return False
 
@@ -38,8 +38,8 @@ class DAO:
 		hash_pass = generate_password_hash(password)
 		self.db.run("insert into loja(nome,telefone,endereco,email,senha) VALUES('"+name+"','"+telephone+"','"+address+"','"+email+"','"+hash_pass+"');")
 
-	def storeAddProduct(self, name, brand, price):
-		self.db.run("insert into produto(nome,marca,preco) VALUES('"+name+"','"+brand+"','"+price+"');")
+	def storeAddProduct(self, name, brand, price, stock, store_id):
+		self.db.run("insert into produto(nome,marca,preco, quantidade, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+str(store_id)+"');")
 	
 
 		

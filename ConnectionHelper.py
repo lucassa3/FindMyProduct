@@ -5,7 +5,7 @@ import os
 class ConnectionHelper:
     
     entrada = []
-    
+
     def __init__(self):
         self.file = open("credential.txt","r")
         with open ("credential.txt", "r") as myfile:
@@ -19,7 +19,7 @@ class ConnectionHelper:
             'host': 'localhost',
             'user': self.mysql_user,
             'password': self.mysql_password,
-            'database': 'fmp',
+            'database': 'fmp_db',
             'autocommit':True    
         }
 

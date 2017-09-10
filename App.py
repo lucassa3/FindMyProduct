@@ -130,8 +130,9 @@ def validateProduct():
 		name = request.form['name']
 		brand = request.form['brand']
 		price = request.form['price']
+		stock = request.form['stock']
 
-		dao.storeAddProduct(name, brand, price)
+		dao.storeAddProduct(name, brand, price, stock, session.get('store'))
 		return "produto adicionado!"
 
 
