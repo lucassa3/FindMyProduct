@@ -11,22 +11,20 @@ class DAO:
 	def validateUserPassword(self, email, password):
 		pass_check = self.db.run("select senha from usuario where email='"+email+"';")
 		
-		if pass_check:
-			if check_password_hash(pass_check[0], password):
+		if pass_check[0][0]:
+			if check_password_hash(pass_check[0][0], password):
 				user_log = self.db.run("select usuario_id from usuario where email='"+email+"';")
-				return user_log[0]
-
+				return user_log[0][0]
 		return False
 
 
 	def validateStorePassword(self, email, password):
 		pass_check = self.db.run("select senha from loja where email='"+email+"';")
 		
-		if pass_check:
-			if check_password_hash(pass_check[0], password):
+		if pass_check[0][0]:
+			if check_password_hash(pass_check[0][0], password):
 				store_log = self.db.run("select loja_id from loja where email='"+email+"';")
-				return store_log[0]
-
+				return store_log[0][0]
 		return False
 
 	def validateUserRegister(self, name, lastname, gender, email, password, birth_date):
@@ -43,8 +41,27 @@ class DAO:
 
 	def getUserFromId(self, user_id):
 		username = self.db.run("select nome from usuario where usuario_id='"+user_id+"';")
-		return str(username[0])
+		return str(username[0][0])
 	
+	def searchProduct(self, name):
+		result = self.db.run("select nome, preco from produto where nome like '%"+name+"%';")
+		return result
+
+	def isUserEmailAlreadyRegistered(self, email):
+		result = self.db.run("select email from usuario where email = '"+email+"';")
+		if result:
+			return True
+		else:
+			return False
+
+	def isStoreEmailAlreadyRegistered(self, email):
+		result = self.db.run("select email from loja where email = '"+email+"';")
+		if result:
+			return True
+		else:
+			return False
+
+
 
 		
 

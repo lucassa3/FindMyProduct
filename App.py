@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, flash, redirect, session
-from werkzeug import generate_password_hash, check_password_hash
-from ConnectionHelper import ConnectionHelper
 from DAO import DAO
 
 app = Flask(__name__)
@@ -52,17 +50,33 @@ def validateRegister():
 		password = request.form['password']
 		check_password = request.form['check_password']
 
-		if password == check_password:
-			dao.validateUserRegister(name, lastname, gender, email, password, birth_date)
-			return redirect("/")
+		email_check = dao.isUserEmailAlreadyRegistered(email)
+		if email_check == False:
+			if password == check_password:
+				dao.validateUserRegister(name, lastname, gender, email, password, birth_date)
+				return redirect("/")
+			else:
+				return "as senhas nao coincidem!"
 		else:
-			return "as senhas nao batem!"
+			return "email ja escolhido!"
 
 
 @app.route('/userLogout')
 def logout():
     session.pop('user', None)
     return redirect('/')
+
+@app.route("/userHome/search", methods=['POST'])
+def userSearch():
+	if session.get('user'):
+		search = request.form['search']
+		result = dao.searchProduct(search)
+		username = dao.getUserFromId(str(session.get('user')))
+		print(result)
+		if result:
+			return render_template('userHome.html', result=result, username=username)
+		else:
+			return "nenhum produto encontrado!"
 
 
 
@@ -110,11 +124,15 @@ def validateStoreRegister():
 		password = request.form['password']
 		check_password = request.form['check_password']
 
-		if password == check_password:
-			dao.validateStoreRegister(name, telephone, address, email, password)
-			return redirect("/storeSignIn")
+		email_check = dao.isStoreEmailAlreadyRegistered(email)
+		if email_check == False:
+			if password == check_password:
+				dao.validateStoreRegister(name, telephone, address, email, password)
+				return redirect("/storeSignIn")
+			else:
+				return "as senhas nao coincidem!"
 		else:
-			return "as senhas nao batem!"
+			return "email ja escolhido!"
 
 
 @app.route('/addProduct')

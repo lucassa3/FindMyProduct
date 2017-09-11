@@ -26,11 +26,12 @@ class ConnectionHelper:
         self.connection = pymysql.connect(**self.connection_options)
         
     def run(self, query, args=None):
+        result_list = []
         with self.connection.cursor() as cursor:
             print('Executando query:')
             print(cursor.mogrify(query, args))
             cursor.execute(query, args)
             for result in cursor.fetchall():
-            	print(result)
-            	return(result)
+            	result_list.append(result)
+        return result_list
 
