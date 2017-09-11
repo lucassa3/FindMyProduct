@@ -40,6 +40,10 @@ class DAO:
 
 	def storeAddProduct(self, name, brand, price, stock, store_id):
 		self.db.run("insert into produto(nome,marca,preco, quantidade, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+str(store_id)+"');")
+
+	def getUserFromId(self, user_id):
+		username = self.db.run("select nome from usuario where usuario_id='"+user_id+"';")
+		return str(username[0])
 	
 
 		

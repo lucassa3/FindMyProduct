@@ -27,10 +27,11 @@ def validateLogin():
  		return "USUARIO E/OU SENHA NÃO ENCONTRADOS"
 
 
-@app.route("/userHome")
+@app.route("/userHome", methods=['GET'])
 def userHome():
 	if session.get('user'):
-		return render_template('userHome.html')
+		username = dao.getUserFromId(str(session.get('user')))
+		return render_template('userHome.html', username=username)
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
 
