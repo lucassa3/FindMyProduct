@@ -1,7 +1,10 @@
-
-
 body {
     background: lightgray;
+    min-height: 2000px;
+}
+
+.cont {
+	padding-top: 40px;
 }
 
 .navbar-fixed-top {
@@ -50,6 +53,7 @@ body {
 }
 
 #sidebar-wrapper {
+	padding-bottom: 70px;
     z-index: 1000;
     position: fixed;
     left: 225px;
@@ -66,7 +70,7 @@ body {
 
 #sidebar-wrapper .sidebar-nav {
     position: absolute;
-    top: 0;
+    top: 0px;
     width: 225px;
     font-size: 14px;
     margin: 0;
