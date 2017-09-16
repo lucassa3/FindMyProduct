@@ -11,7 +11,7 @@ class DAO:
 	def validateUserPassword(self, email, password):
 		pass_check = self.db.run("select senha from usuario where email='"+email+"';")
 		
-		if pass_check[0][0]:
+		if pass_check:
 			if check_password_hash(pass_check[0][0], password):
 				user_log = self.db.run("select usuario_id from usuario where email='"+email+"';")
 				return user_log[0][0]
@@ -21,7 +21,7 @@ class DAO:
 	def validateStorePassword(self, email, password):
 		pass_check = self.db.run("select senha from loja where email='"+email+"';")
 		
-		if pass_check[0][0]:
+		if pass_check:
 			if check_password_hash(pass_check[0][0], password):
 				store_log = self.db.run("select loja_id from loja where email='"+email+"';")
 				return store_log[0][0]
@@ -36,12 +36,16 @@ class DAO:
 		hash_pass = generate_password_hash(password)
 		self.db.run("insert into loja(nome,telefone,endereco,email,senha) VALUES('"+name+"','"+telephone+"','"+address+"','"+email+"','"+hash_pass+"');")
 
-	def storeAddProduct(self, name, brand, price, stock, store_id):
-		self.db.run("insert into produto(nome,marca,preco, quantidade, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+str(store_id)+"');")
+	def storeAddProduct(self, name, brand, price, stock, filePath, store_id):
+		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+str(store_id)+"');")
 
 	def getUserFromId(self, user_id):
 		username = self.db.run("select nome from usuario where usuario_id='"+user_id+"';")
 		return str(username[0][0])
+
+	def getStoreNameFromId(self, store_id):
+		storename = self.db.run("select nome from loja where loja_id='"+store_id+"';")
+		return str(storename[0][0])
 	
 	def searchProduct(self, name):
 		result = self.db.run("select nome, preco from produto where nome like '%"+name+"%';")

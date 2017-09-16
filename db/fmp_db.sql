@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS `fmp_db`.`produto` (
   `preco` DECIMAL(8,2) UNSIGNED NOT NULL,
   `marca` VARCHAR(45) NOT NULL,
   `nome` VARCHAR(45) NOT NULL,
+  `path_foto` VARCHAR(250),
+  `descricao` VARCHAR(250),
   `quantidade` INT NOT NULL,
   `loja_loja_id` INT NOT NULL,
   PRIMARY KEY (`produto_id`),

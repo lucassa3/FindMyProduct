@@ -1,13 +1,20 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, json, jsonify, url_for
 from DAO import DAO
+import uuid
+import os
 
 app = Flask(__name__)
 app.secret_key = '123456'
 
 dao = DAO()
 
+app.config['UPLOAD_FOLDER'] = 'static/Uploads'
+
 @app.route("/")
 def main():
+	if session.get('user'):
+		return redirect('/userHome')
+	
 	return render_template('index.html')
 
 
@@ -85,7 +92,9 @@ def userSearch():
 
 @app.route("/storeSignIn")
 def storeSignIn():
-		return render_template('storeSignIn.html')
+	if session.get('store'):
+		return redirect('/storeHome')
+	return render_template('storeSignIn.html')
 
 
 @app.route("/validateStoreLogin", methods=['POST'])
@@ -104,7 +113,8 @@ def validateStoreLogin():
 @app.route("/storeHome")
 def StoreHome():
 	if session.get('store'):
-		return render_template('storeHome.html')
+		storename = dao.getStoreNameFromId(str(session.get('store')));
+		return render_template('storeHome.html', storename=storename)
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
 
@@ -138,9 +148,20 @@ def validateStoreRegister():
 @app.route('/addProduct')
 def addProduct():
 	if session.get('store'):
-		return render_template('/addProduct.html')
+		storename = dao.getStoreNameFromId(str(session.get('store')));
+		return render_template('/addProduct.html',storename=storename)
 	else:
 		return "acesso nao autorizado!"
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+	if request.method == 'POST':
+		file = request.files['file']
+		extension = os.path.splitext(file.filename)[1]
+		print(extension)
+		f_name = str(uuid.uuid4()) + extension
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], f_name))
+		return json.dumps({'filename':f_name})
 
 
 @app.route('/validateProduct', methods=['POST'])
@@ -151,7 +172,12 @@ def validateProduct():
 		price = request.form['price']
 		stock = request.form['stock']
 
-		dao.storeAddProduct(name, brand, price, stock, session.get('store'))
+		if request.form.get('filePath') is None:
+			filePath = ''
+		else:
+			filePath = request.form.get('filePath')
+
+		dao.storeAddProduct(name, brand, price, stock, filePath, session.get('store'))
 		return "produto adicionado!"
 
 
