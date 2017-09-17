@@ -229,14 +229,33 @@ def validateUserEdit():
 		email = request.form['email']
 		birth_date = request.form['birth_date']
 
+
 		dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
 
 		return redirect('/userInfo')
 
-@app.route('/userInfoPassword')
-def editUserInfoPassword():
-	return "pass"
 
+@app.route('/userEditPassword', methods=['POST'])
+def userEditPassword():
+	return render_template('userEditPassword.html')
+
+@app.route('/validateUserEditPassword', methods=['POST'])
+def validateUserEditPassword():
+
+	if request.method == 'POST':
+
+		password = request.form['password']
+		check_password = request.form['check_password']
+
+		if password == check_password:
+
+			dao.editUserPassword(str(session.get('user')),password)
+
+			return redirect('/userInfo')
+
+		else:
+
+			return "as senhas nao coincidem!"
 
 if __name__ == "__main__":
 	app.run()

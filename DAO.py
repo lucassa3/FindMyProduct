@@ -94,19 +94,8 @@ class DAO:
 			return False
 
 	def editUser(self, user_id, name, lastname, email, birth_date, gender):
-		result = self.db.run("update usuario set nome='"+name+"', sobrenome='"+lastname+"',email='"+email+"', data_nasc='"+birth_date+"',sexo='"+gender+"' where usuario_id='"+user_id+"';")
+		self.db.run("update usuario set nome='"+name+"', sobrenome='"+lastname+"',email='"+email+"', data_nasc='"+birth_date+"',sexo='"+gender+"' where usuario_id='"+user_id+"';")
 
-
-
-		
-
-		
-
-
-
-
-
-
-
-
-
+	def editUserPassword(self, user_id, password):
+		hash_pass = generate_password_hash(password)
+		self.db.run("update usuario set senha='"+hash_pass+"' where usuario_id='"+user_id+"';")
