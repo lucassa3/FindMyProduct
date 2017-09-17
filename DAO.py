@@ -8,6 +8,34 @@ class DAO:
 		self.oi = 0
 		self.db = ConnectionHelper()
 
+	#GET USER
+	def getUserFromId(self, user_id):
+		username = self.db.run("select nome from usuario where usuario_id='"+user_id+"';")
+		return str(username[0][0])
+
+	def getLastNameFromId(self, user_id):
+		lastname = self.db.run("select sobrenome from usuario where usuario_id='"+user_id+"';")
+		return str(lastname[0][0])
+
+	def getEmailFromId(self, user_id):
+		email = self.db.run("select email from usuario where usuario_id='"+user_id+"';")
+		return str(email[0][0])
+
+	def getBirthDateFromId(self, user_id):
+		birth_date = self.db.run("select data_nasc from usuario where usuario_id='"+user_id+"';")
+		return str(birth_date[0][0])
+
+	def getGenderFromId(self, user_id):
+		gender = self.db.run("select sexo from usuario where usuario_id='"+user_id+"';")
+		return str(gender[0][0])
+
+	def getPasswordFromId(self, user_id):
+		password = self.db.run("select senha from usuario where usuario_id='"+user_id+"';")
+		return str(password[0][0])
+
+	#####################################################################################
+
+
 	def validateUserPassword(self, email, password):
 		pass_check = self.db.run("select senha from usuario where email='"+email+"';")
 		
@@ -39,9 +67,6 @@ class DAO:
 	def storeAddProduct(self, name, brand, price, stock, filePath, store_id):
 		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+str(store_id)+"');")
 
-	def getUserFromId(self, user_id):
-		username = self.db.run("select nome from usuario where usuario_id='"+user_id+"';")
-		return str(username[0][0])
 	def getStoreNameFromId(self, store_id):
 		storename = self.db.run("select nome from loja where loja_id='"+store_id+"';")
 		return str(storename[0][0])
@@ -67,6 +92,9 @@ class DAO:
 			return True
 		else:
 			return False
+
+	def editUser(self, user_id, name, lastname, email, birth_date, gender):
+		result = self.db.run("update usuario set nome='"+name+"', sobrenome='"+lastname+"',email='"+email+"', data_nasc='"+birth_date+"',sexo='"+gender+"' where usuario_id='"+user_id+"';")
 
 
 

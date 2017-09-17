@@ -195,10 +195,47 @@ def storeLogout():
     return redirect('/storeSignIn')
 
 
+@app.route('/userInfo')
+def userInfo():
+	username = dao.getUserFromId(str(session.get('user')))
+	lastname = dao.getLastNameFromId(str(session.get('user')))
+	email = dao.getEmailFromId(str(session.get('user')))
+	birth_date = dao.getBirthDateFromId(str(session.get('user')))
+	gender = dao.getGenderFromId(str(session.get('user')))
+	password = dao.getPasswordFromId(str(session.get('user')))
 
 
+	return render_template("userInfo.html",username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
 
+@app.route('/userEdit', methods=['POST'])
+def editUserInfo():
 
+	username = dao.getUserFromId(str(session.get('user')))
+	lastname = dao.getLastNameFromId(str(session.get('user')))
+	email = dao.getEmailFromId(str(session.get('user')))
+	birth_date = dao.getBirthDateFromId(str(session.get('user')))
+	gender = dao.getGenderFromId(str(session.get('user')))
+
+	return render_template("userEdit.html", username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
+
+@app.route('/validateUserEdit', methods=['POST'])
+def validateUserEdit():
+
+	if request.method == 'POST':
+
+		name = request.form['name']
+		lastname = request.form['lastname']
+		gender = request.form['gender']
+		email = request.form['email']
+		birth_date = request.form['birth_date']
+
+		dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+
+		return redirect('/userInfo')
+
+@app.route('/userInfoPassword')
+def editUserInfoPassword():
+	return "pass"
 
 
 if __name__ == "__main__":
