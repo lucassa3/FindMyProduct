@@ -144,6 +144,14 @@ def validateStoreRegister():
 		else:
 			return "email ja escolhido!"
 
+@app.route("/product", methods=['POST', 'GET'])
+def product():
+	product_id = request.form['id']
+	product = dao.getProductById(product_id)
+	return render_template('product.html', product=product)
+	
+
+
 
 @app.route('/addProduct')
 def addProduct():

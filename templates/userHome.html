@@ -10,11 +10,27 @@
 
     <title>Início</title>
 
-
+    <script src="../static/js/jquery-1.11.2.js"></script>
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="../static/css/home.css" rel="stylesheet">
     <link href="../static/css/album.css" rel="stylesheet">
-
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">-->
+    <script>
+        function Edit(elm){
+            $.ajax({
+                url : '/product',
+                data : {id:$(elm).attr('id')},
+                type : 'POST',
+                success: function(res){
+                    console.log(res);
+                    
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        }
+    </script>
 
 
   </head>
@@ -30,7 +46,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="/userHome">FindMyStuff</a>
+                        <a class="navbar-brand" href="/userHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
                     </div>
                     <div id="navbar-collapse" class="collapse navbar-collapse">
                         <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
@@ -42,19 +58,7 @@
                             </div>
                         </form>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a id="flag" href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="http://www.country-dialing-codes.net/img/png-country-4x2-fancy-res-1280x960/gb.png" alt="English" width="28px" height="18px">
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-flag" role="menu">
-                                    <li>
-                                        <a href="#">
-                                            <img src="http://www.country-dialing-codes.net/img/png-country-4x2-flat-res-640x480/gf.png" alt="Français" width="28px" height="18px">
-                                            <span>Français</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        
                             <li class="dropdown">
                                 <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="http://lorempixel.com/100/100/people/9/" class="img-responsive img-thumbnail img-circle">{{username}}</a>
                                 <ul class="dropdown-menu dropdown-block" role="menu">
@@ -122,18 +126,27 @@
 
 <!-- /container -->
     <div class="cont">
-      <div class="container">
+        
+        <div class="container">
+      
 
-        <div class="row">
-          {% for n in result %}<a href="#"><div class="card">
-            <img data-src="holder.js/100px280/thumb" alt="100%x280" style="height: 280px; width: 100%; display: block;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22356%22%20height%3D%22280%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20356%20280%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e7d021722%20text%20%7B%20fill%3A%23AAAAAA%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A18pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e7d021722%22%3E%3Crect%20width%3D%22356%22%20height%3D%22280%22%20fill%3D%22%23EEEEEE%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22131.2890625%22%20y%3D%22148.1%22%3E356x280%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
-            <p class="card-text">{{n[0]}}</p>
-            <p class="card-text">R$ {{n[1]}}</p>
-          </div></a>
-          {% endfor %}
+            <div class="row">
 
-        </div>
-
+                {% for n in result %}
+                <div class="card" style="width: 35rem;">
+                <div class="panel panel-default" >
+                    <div class="panel-heading">
+                        <img class="card-img-top" src="..\{{n[2]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
+                        <h4 class="card-title">{{n[0]}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="card-text">R$ {{n[1]}}</p>
+                        <a id="{{n[3]}}" onclick="Edit(this)" class="btn btn-primary">Ver produto</a>
+                    </div>
+                </div>
+                </div>
+                {% endfor %}
+          </div>
       </div>
     </div>
  <!-- Bootstrap core JavaScript

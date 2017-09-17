@@ -42,13 +42,16 @@ class DAO:
 	def getUserFromId(self, user_id):
 		username = self.db.run("select nome from usuario where usuario_id='"+user_id+"';")
 		return str(username[0][0])
-
 	def getStoreNameFromId(self, store_id):
 		storename = self.db.run("select nome from loja where loja_id='"+store_id+"';")
 		return str(storename[0][0])
 	
 	def searchProduct(self, name):
-		result = self.db.run("select nome, preco from produto where nome like '%"+name+"%';")
+		result = self.db.run("select nome, preco, path_foto, produto_id from produto where nome like '%"+name+"%';")
+		return result
+
+	def getProductById(self, product_id):
+		result = self.db.run("select * from produto where produto_id='"+product_id+"';")
 		return result
 
 	def isUserEmailAlreadyRegistered(self, email):
