@@ -7,6 +7,9 @@
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="../static/css/home.css" rel="stylesheet">
 
+    <link href="../static/css/product.css" rel="stylesheet">
+
+
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     
     <script src="../static/js/jquery-1.11.2.js"></script>
@@ -14,6 +17,42 @@
 	<script src="../static/js/jquery.ui.widget.js"></script>
 	
     <script src="../static/js/bootstrap.min.js"></script>
+
+    <script> 
+    	   $(document).ready(function(){
+            //-- Click on detail
+            $("ul.menu-items > li").on("click",function(){
+                $("ul.menu-items > li").removeClass("active");
+                $(this).addClass("active");
+            })
+
+            $(".attr,.attr2").on("click",function(){
+                var clase = $(this).attr("class");
+
+                $("." + clase).removeClass("active");
+                $(this).addClass("active");
+            })
+
+            //-- Click on QUANTITY
+            $(".btn-minus").on("click",function(){
+                var now = $(".section > div > input").val();
+                if ($.isNumeric(now)){
+                    if (parseInt(now) -1 > 0){ now--;}
+                    $(".section > div > input").val(now);
+                }else{
+                    $(".section > div > input").val("1");
+                }
+            })            
+            $(".btn-plus").on("click",function(){
+                var now = $(".section > div > input").val();
+                if ($.isNumeric(now)){
+                    $(".section > div > input").val(parseInt(now)+1);
+                }else{
+                    $(".section > div > input").val("1");
+                }
+            })                        
+        }) 
+    </script>
 	
 
     <style>
@@ -41,30 +80,126 @@
   	</head>
 
   	<body>
+  		<div id="navbar-wrapper">
+        <header>
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/userHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
+                    </div>
+                    <div id="navbar-collapse" class="collapse navbar-collapse">
+                        <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
+                            <div class="input-group" style="padding-left: 70px; width: 200%;">
+                                <input type="text" class="form-control" placeholder="Busque um produto" name="search">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                </span>
+                            </div>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../static/user_img.png" class="img-responsive img-thumbnail img-circle">{{username}}</a>
+                                <ul class="dropdown-menu dropdown-block" role="menu">
+                                    <li><a href="/userInfo">Minha Conta</a></li>
+                                    <li><a href="/userLogout">Sair</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    	</div>
 
+	    <div class="container" style="padding-top: 80px">
 
-	    <div class="container" style="padding-top: 50px">
-	      	<div class="header">
-	        	<h2>Registro de Loja</h2>
-	      	</div>
-	     
+	      	<div class="well">
 
-			<div class="well">
-				<h4 class="card-title">{{product[0][1]}}</h4>
-				<h4 class="card-title">{{product[0][2]}}</h4>
-				<h4 class="card-title">{{product[0][4]}}</h4>
-				<h4 class="card-title">{{product[0][5]}}</h4>
-				<img class="card-img-top" src="..\{{product[0][3]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
+	      	<div class="row">
+	          	<div class="col-xs-4 item-photo">
+	                <img style="max-width:100%;" src="..\{{product[0][4]}}" />
+	            </div>
 
+	            <div class="col-xs-8" style="border:0px solid gray">
+	                <!-- Datos del vendedor y titulo del producto -->
+	                <h3>{{product[0][3]}}</h3>    
+	                <h5 style="color:#337ab7">vendido por <a href="#">{{product[0][11]}}</a> · <small style="color:#337ab7">(5054 ventas)</small></h5>
+	    			
+	    			<!-- Precios -->
+	                <h6 class="title-price"><small>MARCA</small></h6>
+	                <h3 style="margin-top:0px;">{{product[0][2]}}</h3>
+
+	                <!-- Precios -->
+	                <h6 class="title-price"><small>PREÇO</small></h6>
+	                <h3 style="margin-top:0px;">R$ {{product[0][1]}}</h3>
+	    
+	                <!-- Detalles especificos del producto -->
+	                <div class="section">
+	                    <h6 class="title-attr" style="margin-top:15px;" ><small>COLOR</small></h6>                    
+	                    <div>
+	                        <div class="attr" style="width:25px;background:#5a5a5a;"></div>
+	                        <div class="attr" style="width:25px;background:white;"></div>
+	                    </div>
+	                </div>
+
+	                <div class="section" style="padding-bottom:5px;">
+	                    <h6 class="title-attr"><small>CAPACIDADE</small></h6>                    
+	                    <div>
+	                        <div class="attr2">16 GB</div>
+	                        <div class="attr2">32 GB</div>
+	                    </div>
+	                </div>
+
+	                <div class="section" style="padding-bottom:20px;">
+	                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
+	                    <div>
+	                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
+	                        <input value="1" />
+	                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+	                    </div>
+	                </div>                
+	    
+	                <!-- Botones de compra -->
+	                <div class="section" style="padding-bottom:20px;">
+	                    <button class="btn btn-success"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Comprar</button>
+	                </div>                                        
+	            </div>
+	        </div>
+
+	        <div class="form-group">
+	  			<label for="">Descrição</label>  
+	  			<div>{{product[0][5]}}</div>		
 			</div>
 
+			<div class="form-group">
+	  			<label for="">Localização</label>  
+	  			<div>{{product[0][9]}}</div>		
+			</div>
 
-	      
+			<div id="googleMap" style="width:100%;height:400px;"></div>
 
-			<footer class="footer">
-				<p>&copy; Company 2015</p>
-			</footer>
+			<script>
+			function myMap() {
+			var mapProp= {
+			    center:new google.maps.LatLng(51.508742,-0.120850),
+			    zoom:5,
+			};
+			var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+			}
+			</script>
 
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsHltt99bw8drFOi4wUqdYJ3LQO4tWZh8&callback=myMap"></script>
 	    </div>
+
+	    <footer class="footer">
+			<p>&copy; Company 2015</p>
+		</footer>
+
   </body>
 </html>

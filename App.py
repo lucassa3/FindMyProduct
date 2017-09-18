@@ -146,9 +146,10 @@ def validateStoreRegister():
 
 @app.route("/product", methods=['POST', 'GET'])
 def product():
-	product_id = request.form['id']
-	product = dao.getProductById(product_id)
-	return render_template('product.html', product=product)
+	if request.method == 'POST':
+		product_id = request.form['id']
+		product = dao.getProductById(product_id)
+		return render_template('product.html', product=product)
 	
 
 

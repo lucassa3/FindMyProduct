@@ -139,7 +139,10 @@
                     </div>
                     <div class="panel-body">
                         <p class="card-text">R$ {{n[1]}}</p>
-                        <a id="{{n[3]}}" onclick="Edit(this)" class="btn btn-primary">Ver produto</a>
+                        <form role="form" method="post" action="/product">
+                            <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
+                            <input type="submit" class="btn btn-primary" value="Ver produto">
+                        </form>
                     </div>
                 </div>
                 </div>

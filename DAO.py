@@ -76,7 +76,7 @@ class DAO:
 		return result
 
 	def getProductById(self, product_id):
-		result = self.db.run("select * from produto where produto_id='"+product_id+"';")
+		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and produto_id='"+product_id+"';")
 		return result
 
 	def isUserEmailAlreadyRegistered(self, email):
