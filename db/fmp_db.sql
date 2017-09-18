@@ -43,6 +43,8 @@ CREATE TABLE IF NOT EXISTS `fmp_db`.`loja` (
   `nome` VARCHAR(45) NOT NULL,
   `email` VARCHAR(65) NOT NULL,
   `senha` VARCHAR(255) NOT NULL,
+  `latitude` varchar(45) NOT NULL,
+  `longitude` varchar(45) NOT NULL,
   PRIMARY KEY (`loja_id`))
 ENGINE = InnoDB;
 

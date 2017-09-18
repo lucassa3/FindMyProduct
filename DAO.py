@@ -60,9 +60,9 @@ class DAO:
 		self.db.run("insert into usuario(nome,sobrenome,sexo,email,senha,data_nasc) VALUES('"+name+"','"+lastname+"','"+gender+"','"+email+"','"+hash_pass+"','"+birth_date+"');")
 
 		
-	def validateStoreRegister(self, name, telephone, address, email, password):
+	def validateStoreRegister(self, name, telephone, address, email, password, lat, lng):
 		hash_pass = generate_password_hash(password)
-		self.db.run("insert into loja(nome,telefone,endereco,email,senha) VALUES('"+name+"','"+telephone+"','"+address+"','"+email+"','"+hash_pass+"');")
+		self.db.run("insert into loja(nome,telefone,endereco,email,senha,latitude,longitude) VALUES('"+name+"','"+telephone+"','"+address+"','"+email+"','"+hash_pass+"','"+lat+"','"+lng+"');")
 
 	def storeAddProduct(self, name, brand, price, stock, filePath, store_id):
 		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+str(store_id)+"');")
