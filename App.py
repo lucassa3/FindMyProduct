@@ -289,5 +289,61 @@ def validateUserEditPassword():
 
 			return "as senhas nao coincidem!"
 
+@app.route('/storeInfo')
+def storeInfo():
+
+	address = dao.getAddressFromId(str(session.get('store')));
+	phone = dao.getPhoneFromId(str(session.get('store')));
+	storename = dao.getStoreNameFromId(str(session.get('store')));
+	email = dao.getStoreEmailFromId(str(session.get('store')));
+
+	return render_template("storeInfo.html",address=address,phone=phone,storename=storename,email=email)
+
+@app.route('/storeEdit',methods=['POST'])
+def storeEdit():
+
+	address = dao.getAddressFromId(str(session.get('store')));
+	phone = dao.getPhoneFromId(str(session.get('store')));
+	storename = dao.getStoreNameFromId(str(session.get('store')));
+	email = dao.getStoreEmailFromId(str(session.get('store')));
+
+	return render_template("storeEdit.html",address=address,phone=phone,storename=storename,email=email)
+
+@app.route('/validateStoreEdit', methods=['POST'])
+def validateStoreEdit():
+
+	if request.method == 'POST':
+
+		storename = request.form['storename']
+		email = request.form['email']
+		phone = request.form['phone']
+		address = request.form['address']
+
+		dao.editStore(str(session.get('store')),address,phone,storename,email)
+
+		return redirect('/storeInfo')
+
+@app.route('/storeEditPassword', methods=['POST'])
+def userStorePassword():
+	return render_template('storeEditPassword.html')
+
+@app.route('/validateStoreEditPassword', methods=['POST'])
+def validateStoreEditPassword():
+
+	if request.method == 'POST':
+
+		password = request.form['password']
+		check_password = request.form['check_password']
+
+		if password == check_password:
+
+			dao.editStorePassword(str(session.get('store')),password)
+
+			return redirect('/storeInfo')
+
+		else:
+
+			return "as senhas nao coincidem!"
+
 if __name__ == "__main__":
 	app.run()
