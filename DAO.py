@@ -1,5 +1,6 @@
 from werkzeug import generate_password_hash, check_password_hash
 from ConnectionHelper import ConnectionHelper
+from math import cos, asin, sqrt
 
 
 class DAO:
@@ -33,8 +34,31 @@ class DAO:
 		password = self.db.run("select senha from usuario where usuario_id='"+user_id+"';")
 		return str(password[0][0])
 
-	#####################################################################################
+#########################################################################################
 
+	#GET STORE
+
+	def getAddressFromId(self,store_id):
+		address = self.db.run("select endereco from loja where loja_id='"+store_id+"';")
+		return str(address[0][0])
+
+	def getPhoneFromId(self,store_id):
+		phone = self.db.run("select telefone from loja where loja_id='"+store_id+"';")
+		return str(phone[0][0])
+
+	def getStoreNameFromId(self, store_id):
+		storename = self.db.run("select nome from loja where loja_id='"+store_id+"';")
+		return str(storename[0][0])
+
+	def getStoreEmailFromId(self,store_id):
+		email = self.db.run("select email from loja where loja_id='"+store_id+"';")
+		return str(email[0][0])
+
+	def getStorePasswordFromId(self,store_id):
+		password = self.db.run("select senha from loja where loja_id='"+store_id+"';")
+		return str(password[0][0])
+
+#########################################################################################
 
 	def validateUserPassword(self, email, password):
 		pass_check = self.db.run("select senha from usuario where email='"+email+"';")
@@ -66,10 +90,6 @@ class DAO:
 
 	def storeAddProduct(self, name, brand, price, stock, filePath, store_id):
 		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+str(store_id)+"');")
-
-	def getStoreNameFromId(self, store_id):
-		storename = self.db.run("select nome from loja where loja_id='"+store_id+"';")
-		return str(storename[0][0])
 	
 	def searchProduct(self, name):
 		result = self.db.run("select nome, preco, path_foto, produto_id from produto where nome like '%"+name+"%';")
@@ -99,3 +119,19 @@ class DAO:
 	def editUserPassword(self, user_id, password):
 		hash_pass = generate_password_hash(password)
 		self.db.run("update usuario set senha='"+hash_pass+"' where usuario_id='"+user_id+"';")
+	
+	def editStore(self, store_id, address, phone, storename, email):
+		self.db.run("update loja set endereco='"+address+"', telefone='"+phone+"',nome='"+storename+"',email='"+email+"' where loja_id='"+store_id+"';")
+
+	def editStorePassword(self, store_id, password):
+		hash_pass = generate_password_hash(password)
+		self.db.run("update loja set senha='"+hash_pass+"' where loja_id='"+store_id+"';")
+
+	def distance(lat1, lon1, lat2, lon2):
+    	
+    	p = 0.017453292519943295 
+   		a = 0.5 - cos((lat2 - lat1) * p)/2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
+   		distance = 12742 * asin(sqrt(a)) 
+   
+   		return distance #Km
+
