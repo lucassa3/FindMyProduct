@@ -95,10 +95,19 @@ class DAO:
 		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%';")
 		return result
 
+<<<<<<< HEAD
 	def searchProductByBrand(self, name, brand):
 		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and marca='"+brand+"' and p.nome like '%"+name+"%';")
 		return result
 
+=======
+
+	def userBuyProduct(self, purchase_date, user_id, product_id, quantity):
+		self.db.run("insert into compra(data_compra, usuario_usuario_id, produto_produto_id, quantidade) VALUES('"+purchase_date+"','"+user_id+"','"+product_id+"','"+quantity+"');")
+		self.db.run("update produto set quantidade= quantidade - "+quantity+" where produto_id='"+product_id+"';")
+
+		
+>>>>>>> 0595b276f55b73cd5efb4dcadda79526c8fafe09
 	def getProductById(self, product_id):
 		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and produto_id='"+product_id+"';")
 		return result
