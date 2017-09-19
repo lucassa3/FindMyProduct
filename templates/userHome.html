@@ -71,7 +71,7 @@
                         <li>
                             <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-2">
                                 <span class="sidebar-icon"><i class="fa fa-users"></i></span>
-                                <span class="sidebar-title">Management</span>
+                                <span class="sidebar-title">Preços</span>
                                 <b class="caret"></b>
                             </a>
                             <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
@@ -83,7 +83,7 @@
                         <li>
                             <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
                                 <span class="sidebar-icon"><i class="fa fa-newspaper-o"></i></span>
-                                <span class="sidebar-title">Blog</span>
+                                <span class="sidebar-title">Marcas</span>
                                 <b class="caret"></b>
                             </a>
                             <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
@@ -113,34 +113,32 @@
 
         </div>
 
-        <div class="cont">
+        <div style="padding-top: 10px; padding-left: 250px;">
             
-            <div class="container">
           
-                <div class="row">
+                <div class="row ">
                     
                     {% for n in result %}
                     <div class="card" style="width: 35rem;">
-                    <div class="panel panel-default" >
-                        <div class="panel-heading">
-                            <img class="card-img-top" src="..\{{n[2]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
-                            <h4 class="card-title">{{n[0]}}</h4>
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <img class="card-img-top" src="..\{{n[2]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
+                                <h4 class="card-title">{{n[0]}}</h4>
+                            </div>
+                            <div class="panel-body">
+                                <h5>R$ {{n[1]}}</h5>
+                                <h5><span class="glyphicon glyphicon-record"></span> {{distances[loop.index-1]}} KM</h5>
+                                <form role="form" method="post" action="/product">
+                                    <input value ="{{distances[loop.index-1]}}" name="distance" id="distance" type="hidden">
+                                    <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
+                                    <input type="submit" class="btn btn-primary" value="Ver produto">
+                                </form>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <h5>R$ {{n[1]}}</h5>
-                            <h5><span class="glyphicon glyphicon-record"></span> {{distances[loop.index-1]}} KM</h5>
-                            <form role="form" method="post" action="/product">
-                                <input value ="{{distances[loop.index-1]}}" name="distance" id="distance" type="hidden">
-                                <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
-                                <input type="submit" class="btn btn-primary" value="Ver produto">
-                            </form>
-                        </div>
-                    </div>
                     </div>
                     {% endfor %}
 
                 </div>
-            </div>
         </div>
 
         <script>
@@ -174,9 +172,6 @@
             function showPosition(position) {
                 document.getElementById("latitude").value = position.coords.latitude;
                 document.getElementById("longitude").value = position.coords.longitude;
-
-                document.getElementById("latitude2").value = position.coords.latitude;
-                document.getElementById("longitude2").value = position.coords.longitude;
 
             }
         </script>
