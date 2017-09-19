@@ -53,6 +53,21 @@
             })                        
         }) 
     </script>
+
+    <script>
+    var x = document.getElementById("demo");
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+    function showPosition(position) {
+        document.getElementById("latitude").value = position.coords.latitude;
+        document.getElementById("longitude").value = position.coords.longitude;
+    }
+    </script>
 	
 
     <style>
@@ -79,7 +94,7 @@
    
   	</head>
 
-  	<body>
+  	<body onload="getLocation();">
   		<div id="navbar-wrapper">
         <header>
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -97,6 +112,8 @@
                         <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
                             <div class="input-group" style="padding-left: 70px; width: 200%;">
                                 <input type="text" class="form-control" placeholder="Busque um produto" name="search">
+                                <input value ="21" name="latitude"  id="latitude" type="hidden">
+                                <input value ="21" name="longitude" id="longitude" type="hidden">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                 </span>
@@ -122,14 +139,14 @@
 	      	<div class="well">
 
 	      	<div class="row">
-	          	<div class="col-xs-4 item-photo">
+	          	<div class="col-xs-6 item-photo">
 	                <img style="max-width:100%;" src="..\{{product[0][4]}}" />
 	            </div>
 
-	            <div class="col-xs-8" style="border:0px solid gray">
+	            <div class="col-xs-6" style="border:0px solid gray">
 	                <!-- Datos del vendedor y titulo del producto -->
 	                <h3>{{product[0][3]}}</h3>    
-	                <h5 style="color:#337ab7">vendido por <a href="#">{{product[0][11]}}</a> · <small style="color:#337ab7">(5054 ventas)</small></h5>
+	                <h5 style="color:#337ab7">vendido por <a href="#">{{product[0][11]}}</a> · <small style="color:#337ab7">({{product[0][6]}} em estoque)</small></h5>
 	    			
 	    			<!-- Precios -->
 	                <h6 class="title-price"><small>MARCA</small></h6>
@@ -140,21 +157,6 @@
 	                <h3 style="margin-top:0px;">R$ {{product[0][1]}}</h3>
 	    
 	                <!-- Detalles especificos del producto -->
-	                <div class="section">
-	                    <h6 class="title-attr" style="margin-top:15px;" ><small>COLOR</small></h6>                    
-	                    <div>
-	                        <div class="attr" style="width:25px;background:#5a5a5a;"></div>
-	                        <div class="attr" style="width:25px;background:white;"></div>
-	                    </div>
-	                </div>
-
-	                <div class="section" style="padding-bottom:5px;">
-	                    <h6 class="title-attr"><small>CAPACIDADE</small></h6>                    
-	                    <div>
-	                        <div class="attr2">16 GB</div>
-	                        <div class="attr2">32 GB</div>
-	                    </div>
-	                </div>
 
 	                <div class="section" style="padding-bottom:20px;">
 	                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
@@ -189,16 +191,19 @@
 					var myLatLng = {lat: {{product[0][14]}}, lng: {{product[0][15]}}};
 				var mapProp= {
 				    center:new google.maps.LatLng({{product[0][14]}},{{product[0][15]}}),
-				    zoom:20,
+				    zoom:17,
 				};
 				var map = new google.maps.Map(document.getElementById("googleMap"),mapProp, marker);
-				}
 
-				var marker = new google.maps.Marker({
-		          	position: myLatLng,
+				var marker = new google.maps.Marker(
+				{
+		          	position: new google.maps.LatLng({{product[0][14]}},{{product[0][15]}}),
 		          	map: map,
 		          	title: 'Hello World!'
 		        });
+				}
+
+				
 			</script>
 
 			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsHltt99bw8drFOi4wUqdYJ3LQO4tWZh8&callback=myMap"></script>

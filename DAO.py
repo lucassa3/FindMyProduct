@@ -92,7 +92,7 @@ class DAO:
 		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+str(store_id)+"');")
 	
 	def searchProduct(self, name):
-		result = self.db.run("select nome, preco, path_foto, produto_id from produto where nome like '%"+name+"%';")
+		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%';")
 		return result
 
 	def getProductById(self, product_id):
@@ -127,11 +127,9 @@ class DAO:
 		hash_pass = generate_password_hash(password)
 		self.db.run("update loja set senha='"+hash_pass+"' where loja_id='"+store_id+"';")
 
-	def distance(lat1, lon1, lat2, lon2):
-    	
-    	p = 0.017453292519943295 
-   		a = 0.5 - cos((lat2 - lat1) * p)/2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
-   		distance = 12742 * asin(sqrt(a)) 
-   
-   		return distance #Km
+	def distance(self, lat1, lon1, lat2, lon2):
+		p = 0.017453292519943295 
+		a = 0.5 - cos((lat2 - lat1) * p)/2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
+		distance = 12742 * asin(sqrt(a)) 
+		return distance #Km
 

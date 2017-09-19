@@ -18,6 +18,21 @@
 	<script src="../static/js/jquery.ui.widget.js"></script>
 	
     <script src="../static/js/bootstrap.min.js"></script>
+
+    <script>
+	    var x = document.getElementById("demo");
+	    function getLocation() {
+	        if (navigator.geolocation) {
+	            navigator.geolocation.watchPosition(showPosition);
+	        } else {
+	            x.innerHTML = "Geolocation is not supported by this browser.";
+	        }
+	    }
+	    function showPosition(position) {
+	        document.getElementById("latitude").value = position.coords.latitude;
+	        document.getElementById("longitude").value = position.coords.longitude;
+	    }
+    </script>
 	
 
     <style>
@@ -44,7 +59,7 @@
    
   	</head>
 
-  	<body>
+  	<body onload="getLocation();">
   		<div id="navbar-wrapper">
 	        <header>
 	            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -62,6 +77,8 @@
 	                        <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
 	                            <div class="input-group" style="padding-left: 70px; width: 200%;">
 	                                <input type="text" class="form-control" placeholder="Busque um produto" name="search">
+	                                <input value ="21" name="latitude"  id="latitude" type="hidden">
+                                	<input value ="21" name="longitude" id="longitude" type="hidden">
 	                                <span class="input-group-btn">
 	                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 	                                </span>
