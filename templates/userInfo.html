@@ -13,48 +13,26 @@
 
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     
-    <script src="../static/js/jquery-1.11.2.js"></script>
-
-	<script src="../static/js/jquery.ui.widget.js"></script>
-	
-    <script src="../static/js/bootstrap.min.js"></script>
-
-    <script>
-	    var x = document.getElementById("demo");
-	    function getLocation() {
-	        if (navigator.geolocation) {
-	            navigator.geolocation.watchPosition(showPosition);
-	        } else {
-	            x.innerHTML = "Geolocation is not supported by this browser.";
-	        }
-	    }
-	    function showPosition(position) {
-	        document.getElementById("latitude").value = position.coords.latitude;
-	        document.getElementById("longitude").value = position.coords.longitude;
-	    }
-    </script>
-	
-
     <style>
-	.btn-file {
-    position: relative;
-    overflow: hidden;
-	}
-	.btn-file input[type=file] {
-	    position: absolute;
-	    top: 0;
-	    right: 0;
-	    min-width: 100%;
-	    min-height: 100%;
-	    font-size: 100px;
-	    text-align: right;
-	    filter: alpha(opacity=0);
-	    opacity: 0;
-	    outline: none;
-	    background: white;
-	    cursor: inherit;
-	    display: block;
-	}
+		.btn-file {
+	    	position: relative;
+	    	overflow: hidden;
+		}
+		.btn-file input[type=file] {
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    min-width: 100%;
+		    min-height: 100%;
+		    font-size: 100px;
+		    text-align: right;
+		    filter: alpha(opacity=0);
+		    opacity: 0;
+		    outline: none;
+		    background: white;
+		    cursor: inherit;
+		    display: block;
+		}
     </style>
    
   	</head>
@@ -150,13 +128,31 @@
 					</div>
 			</div>
 
-
-	      
-
 			<footer class="footer">
 				<p>&copy; Company 2015</p>
 			</footer>
 
 	    </div>
-  </body>
+
+	    <script src="../static/js/jquery-1.11.2.js"></script>
+
+		<script src="../static/js/jquery.ui.widget.js"></script>
+	
+    	<script src="../static/js/bootstrap.min.js"></script>
+
+	    <script>
+		    var x = document.getElementById("demo");
+		    function getLocation() {
+		        if (navigator.geolocation) {
+		            navigator.geolocation.watchPosition(showPosition);
+		        } else {
+		            x.innerHTML = "Geolocation is not supported by this browser.";
+		        }
+		    }
+		    function showPosition(position) {
+		        document.getElementById("latitude").value = position.coords.latitude;
+		        document.getElementById("longitude").value = position.coords.longitude;
+		    }
+	    </script>
+  	</body>
 </html>

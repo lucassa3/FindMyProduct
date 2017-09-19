@@ -88,8 +88,8 @@ class DAO:
 		hash_pass = generate_password_hash(password)
 		self.db.run("insert into loja(nome,telefone,endereco,email,senha,latitude,longitude) VALUES('"+name+"','"+telephone+"','"+address+"','"+email+"','"+hash_pass+"','"+lat+"','"+lng+"');")
 
-	def storeAddProduct(self, name, brand, price, stock, filePath, store_id):
-		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+str(store_id)+"');")
+	def storeAddProduct(self, name, brand, price, stock, filePath, description, store_id):
+		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, descricao, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+description+"','"+str(store_id)+"');")
 	
 	def searchProduct(self, name):
 		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%';")

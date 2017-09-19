@@ -335,13 +335,14 @@ def validateProduct():
 		brand = request.form['brand']
 		price = request.form['price']
 		stock = request.form['stock']
+		description = request.form['description']
 
 		if request.form.get('filePath') is None:
 			filePath = ''
 		else:
 			filePath = request.form.get('filePath')
 
-		dao.storeAddProduct(name, brand, price, stock, filePath, session.get('store'))
+		dao.storeAddProduct(name, brand, price, stock, filePath, description, session.get('store'))
 		return "produto adicionado!"
 
 
