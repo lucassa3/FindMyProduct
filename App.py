@@ -127,7 +127,16 @@ def validateUserEdit():
 		email = request.form['email']
 		birth_date = request.form['birth_date']
 
-		dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+		email_check = dao.isStoreEmailAlreadyRegistered(email)
+
+		if email_check == False:
+
+			dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+
+		else:
+			return "Email já escolhido"
+
+		
 
 		return redirect('/userInfo')
 
@@ -285,9 +294,6 @@ def validateStoreRegister():
 			lat = str(i["geometry"]["location"]["lat"])
 			lng = str(i["geometry"]["location"]["lng"])
 
-
-
-
 		email_check = dao.isStoreEmailAlreadyRegistered(email)
 		if email_check == False:
 			if password == check_password:
@@ -346,11 +352,6 @@ def storeLogout():
 
 
 
-
-
-
-
-
 @app.route('/storeInfo')
 def storeInfo():
 
@@ -381,7 +382,13 @@ def validateStoreEdit():
 		phone = request.form['phone']
 		address = request.form['address']
 
-		dao.editStore(str(session.get('store')),address,phone,storename,email)
+		email_check = dao.isStoreEmailAlreadyRegistered(email)
+
+		if email_check == False:
+			dao.editStore(str(session.get('store')),address,phone,storename,email)
+
+		else:
+			return "Email já escolhido"
 
 		return redirect('/storeInfo')
 
