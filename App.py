@@ -194,6 +194,24 @@ def userSearch():
 
 
 
+@app.route("/product", methods=['POST'])
+def product():
+	if request.method == 'POST':
+		if session.get('user'):
+			product_id = request.form['id']
+			distance = request.form['distance']
+			
+			
+			product = dao.getProductById(product_id)
+
+
+			username = dao.getUserFromId(str(session.get('user')));
+			return render_template('product.html', product=product, username=username, distance=distance)
+		else:
+			return "acesso nao autorizado!"
+
+
+
 ###############################STORE-ROUTES########################################
 
 
@@ -280,16 +298,7 @@ def validateStoreRegister():
 		else:
 			return "email ja escolhido!"
 
-@app.route("/product", methods=['POST'])
-def product():
-	if request.method == 'POST':
-		if session.get('user'):
-			product_id = request.form['id']
-			product = dao.getProductById(product_id)
-			username = dao.getUserFromId(str(session.get('user')));
-			return render_template('product.html', product=product, username=username)
-		else:
-			return "acesso nao autorizado!"
+
 	
 
 

@@ -130,6 +130,7 @@
                             <h5>R$ {{n[1]}}</h5>
                             <h5><span class="glyphicon glyphicon-record"></span> {{distances[loop.index-1]}} KM</h5>
                             <form role="form" method="post" action="/product">
+                                <input value ="{{distances[loop.index-1]}}" name="distance" id="distance" type="hidden">
                                 <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
                                 <input type="submit" class="btn btn-primary" value="Ver produto">
                             </form>
@@ -173,6 +174,10 @@
             function showPosition(position) {
                 document.getElementById("latitude").value = position.coords.latitude;
                 document.getElementById("longitude").value = position.coords.longitude;
+
+                document.getElementById("latitude2").value = position.coords.latitude;
+                document.getElementById("longitude2").value = position.coords.longitude;
+
             }
         </script>
 
