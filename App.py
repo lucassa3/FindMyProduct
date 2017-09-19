@@ -8,7 +8,6 @@ app = Flask(__name__)
 app.secret_key = '123456'
 
 
-
 dao = DAO()
 
 app.config['UPLOAD_FOLDER'] = 'static/Uploads'
@@ -32,11 +31,11 @@ def validateLogin():
 
 	if pass_check:
 		session['user'] = pass_check
-		
 		return redirect('/userHome')
 
 	else:
- 		return "USUARIO E/OU SENHA NÃO ENCONTRADOS"
+		flash('USUÁRIO E/OU SENHA INVÁLIDOS')
+		return redirect('/')
 
 
 
@@ -146,14 +145,15 @@ def validateUserEdit():
 
 @app.route('/userEditPassword', methods=['POST'])
 def userEditPassword():
-
-	return render_template('userEditPassword.html')
+	username = dao.getUserFromId(str(session.get('user')))
+	return render_template('userEditPassword.html',username=username)
 
 
 
 @app.route('/validateUserEditPassword', methods=['POST'])
 def validateUserEditPassword():
 	if request.method == 'POST':
+
 		password = request.form['password']
 		check_password = request.form['check_password']
 
@@ -190,8 +190,10 @@ def userSearch():
 		
 		if checkbox == "none":
 			result = dao.searchProduct(search)
+			soldout = dao.searchSoldOut(search)
 		else:
 			result = dao.searchProductByBrand(search,checkbox)
+			soldout = dao.searchSoldOut(search)
 
 		username = dao.getUserFromId(str(session.get('user')))
 		
@@ -205,7 +207,7 @@ def userSearch():
 
 		if result:
 
-			return render_template('userHome.html', result=result, username=username, distances=distances, brand_list=brand_list)
+			return render_template('userHome.html', result=result, username=username, distances=distances, brand_list=brand_list,soldout=soldout)
 
 		else:
 			return "nenhum produto encontrado!"
@@ -237,11 +239,6 @@ def validateBuy():
 			username_id = str(session.get('user'))
 			date = request.form['date']
 			quantity = request.form['quantity']
-			
-			print("id prod "+product_id)
-			print("id user "+username_id)
-			print("data " +date)
-			print("quantity " +quantity)
 
 			dao.userBuyProduct(date, username_id, product_id, quantity)
 			username = dao.getUserFromId(str(session.get('user')));
@@ -335,11 +332,6 @@ def validateStoreRegister():
 		else:
 			return "email ja escolhido!"
 
-
-	
-
-
-
 @app.route('/addProduct')
 def addProduct():
 	if session.get('store'):
@@ -374,7 +366,7 @@ def validateProduct():
 			filePath = request.form.get('filePath')
 
 		dao.storeAddProduct(name, brand, price, stock, filePath, description, session.get('store'))
-		return "produto adicionado!"
+		return redirect('/storeHome')
 
 
 @app.route('/storeLogout')
@@ -427,7 +419,8 @@ def validateStoreEdit():
 
 @app.route('/storeEditPassword', methods=['POST'])
 def userStorePassword():
-	return render_template('storeEditPassword.html')
+	storename = dao.getStoreNameFromId(str(session.get('store')));
+	return render_template('storeEditPassword.html',storename=storename)
 
 @app.route('/validateStoreEditPassword', methods=['POST'])
 def validateStoreEditPassword():

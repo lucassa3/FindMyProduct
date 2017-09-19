@@ -10,7 +10,7 @@
 
         
         <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../static/css/home.css" rel="stylesheet">
+        <link href="../static/css/home.css" rel="stylesheet">   
         <link href="../static/css/album.css" rel="stylesheet">
         <link href="../static/css/radio.css" rel="stylesheet">
 
@@ -144,7 +144,28 @@
                         </div>
                     </div>
                     {% endfor %}
-
+                    {% for n in soldout %}
+                    <div class="card" style="width: 35rem;">
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <img class="card-img-top" src="..\{{n[2]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
+                                <h4 class="card-title">{{n[0]}}</h4>
+                            </div>
+                            <div class="panel-body">
+                                <h5>R$ {{n[1]}}</h5>
+                                <h5><span class="glyphicon glyphicon-record"></span> {{distances[loop.index-1]}} KM</h5>
+                                <form role="form" method="post" action="/product">
+                                    <input value ="{{distances[loop.index-1]}}" name="distance" id="distance" type="hidden">
+                                    <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
+                                    <input type="submit" class="btn btn-primary" value="Ver produto" disabled="disabled">
+                                    <span style="color: red;">Esgotado</span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+ 
+                    
                 </div>
         </div>
 

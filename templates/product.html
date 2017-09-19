@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     
-    <title>Registro de Loja</title>
+    <title>Produto</title>
 
    
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -106,7 +106,7 @@
         	                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
         	                    <div>
         	                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-        	                        <input value="1" name="quantity" id="quantity" />
+        	                        <input value="1" max='{{product[0][6]}}' name="quantity" id="quantity" type='number'/>
                                     <input type="hidden" value="15" name="date" id="date" />
                                     <input type="hidden" value="{{product[0][0]}}" name="product_id" id="product_id" />
         	                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
