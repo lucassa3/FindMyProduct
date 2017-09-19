@@ -1,183 +1,185 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)https://getbootstrap.com/docs/3.3/examples/navbar-fixed-top/ -->
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
-    <title>Início</title>
-
-    <script src="../static/js/jquery-1.11.2.js"></script>
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/home.css" rel="stylesheet">
-    <link href="../static/css/album.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">-->
-    <script>
-        function Edit(elm){
-            $.ajax({
-                url : '/product',
-                data : {id:$(elm).attr('id')},
-                type : 'POST',
-                success: function(res){
-                    console.log(res);
-                    
-                },
-                error: function(error){
-                    console.log(error);
-                }
-            });
-        }
-    </script>
-
-    <script>
-    var x = document.getElementById("demo");
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-    function showPosition(position) {
-        document.getElementById("latitude").value = position.coords.latitude;
-        document.getElementById("longitude").value = position.coords.longitude;
-    }
-    </script>
-
-
-  </head>
-  <body onload="getLocation();">
-    <div id="navbar-wrapper">
-        <header>
-            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/userHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
-                    </div>
-                    <div id="navbar-collapse" class="collapse navbar-collapse">
-                        <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
-                            <div class="input-group" style="padding-left: 70px; width: 200%;">
-                                <input type="text" class="form-control" placeholder="Busque um produto" name="search">
-                                <input value ="21" name="latitude"  id="latitude" type="hidden">
-                                <input value ="21" name="longitude" id="longitude" type="hidden">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                                </span>
-                            </div>
-                        </form>
-
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../static/user_img.png" class="img-responsive img-thumbnail img-circle">{{username}}</a>
-                                <ul class="dropdown-menu dropdown-block" role="menu">
-                                    <li><a href="/userInfo">Minha Conta</a></li>
-                                    <li><a href="/userLogout">Sair</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    </div>
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <aside id="sidebar">
-                <ul id="sidemenu" class="sidebar-nav">
-                    <li>
-                        <a href="#">
-                            <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
-                            <span class="sidebar-title">Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-2">
-                            <span class="sidebar-icon"><i class="fa fa-users"></i></span>
-                            <span class="sidebar-title">Management</span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
-                            <li><a href="#"><i class="fa fa-caret-right"></i>Users</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right"></i>Roles</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
-                            <span class="sidebar-icon"><i class="fa fa-newspaper-o"></i></span>
-                            <span class="sidebar-title">Blog</span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
-  							<li><input type="checkbox" name="vehicle" value="Bike"><i class="fa fa-caret-right" style="background-color: blue;"></i> I have a bike</li>
-  							<li><input type="checkbox" name="vehicle" value="Bike"><i class="fa fa-caret-right"></i> I have a bike</li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="sidebar-icon"><i class="fa fa-database"></i></span>
-                            <span class="sidebar-title">Data</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="sidebar-icon"><i class="fa fa-terminal"></i></span>
-                            <span class="sidebar-title">Console</span>
-                        </a>
-                    </li>
-                </ul>
-            </aside>            
-        </div>
-        <main id="page-content-wrapper" role="main">
-        </main>
-    </div>
-
-<!-- /container -->
-    <div class="cont">
-        
-        <div class="container">
-      
-
-            <div class="row">
-                {% for n in result %}
-                <div class="card" style="width: 35rem;">
-                <div class="panel panel-default" >
-                    <div class="panel-heading">
-                        <img class="card-img-top" src="..\{{n[2]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
-                        <h4 class="card-title">{{n[0]}}</h4>
-                    </div>
-                    <div class="panel-body">
-                        <h5>R$ {{n[1]}}</h5>
-                        <h5><span class="glyphicon glyphicon-record"></span> {{distances[loop.index-1]}} KM</h5>
-                        <form role="form" method="post" action="/product">
-                            <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
-                            <input type="submit" class="btn btn-primary" value="Ver produto">
-                        </form>
-                    </div>
-                </div>
-                </div>
-                {% endfor %}
-
-          </div>
-      </div>
-    </div>
- <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../static/js/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../static/js/bootstrap.min.js"></script>
-  </body>
-
-  
+    <head>
     
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <title>Início</title>
+
+        
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../static/css/home.css" rel="stylesheet">
+        <link href="../static/css/album.css" rel="stylesheet">
+
+    </head>
+    
+    <body onload="getLocation();">
+        <div id="navbar-wrapper">
+            <header>
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/userHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
+                        </div>
+
+                        <div id="navbar-collapse" class="collapse navbar-collapse">
+                            <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
+                                <div class="input-group" style="padding-left: 70px; width: 200%;">
+                                    <input type="text" class="form-control" placeholder="Busque um produto" name="search">
+                                    <input value ="21" name="latitude"  id="latitude" type="hidden">
+                                    <input value ="21" name="longitude" id="longitude" type="hidden">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    </span>
+                                </div>
+                            </form>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../static/user_img.png" class="img-responsive img-thumbnail img-circle">{{username}}</a>
+                                    <ul class="dropdown-menu dropdown-block" role="menu">
+                                        <li><a href="/userInfo">Minha Conta</a></li>
+                                        <li><a href="/userLogout">Sair</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+
+        <div id="wrapper">
+            <div id="sidebar-wrapper">
+                <aside id="sidebar">
+                    <ul id="sidemenu" class="sidebar-nav">
+                        <li>
+                            <a href="#">
+                                <span class="sidebar-icon"><i class="fa fa-dashboard"></i></span>
+                                <span class="sidebar-title">Home</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-2">
+                                <span class="sidebar-icon"><i class="fa fa-users"></i></span>
+                                <span class="sidebar-title">Management</span>
+                                <b class="caret"></b>
+                            </a>
+                            <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
+                                <li><a href="#"><i class="fa fa-caret-right"></i>Users</a></li>
+                                <li><a href="#"><i class="fa fa-caret-right"></i>Roles</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class="accordion-toggle collapsed toggle-switch" data-toggle="collapse" href="#submenu-3">
+                                <span class="sidebar-icon"><i class="fa fa-newspaper-o"></i></span>
+                                <span class="sidebar-title">Blog</span>
+                                <b class="caret"></b>
+                            </a>
+                            <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
+      							<li><input type="checkbox" name="vehicle" value="Bike"><i class="fa fa-caret-right" style="background-color: blue;"></i> I have a bike</li>
+      							<li><input type="checkbox" name="vehicle" value="Bike"><i class="fa fa-caret-right"></i> I have a bike</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <span class="sidebar-icon"><i class="fa fa-database"></i></span>
+                                <span class="sidebar-title">Data</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <span class="sidebar-icon"><i class="fa fa-terminal"></i></span>
+                                <span class="sidebar-title">Console</span>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>            
+            </div>
+            
+            <main id="page-content-wrapper" role="main"></main>
+
+        </div>
+
+        <div class="cont">
+            
+            <div class="container">
+          
+                <div class="row">
+                    
+                    {% for n in result %}
+                    <div class="card" style="width: 35rem;">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <img class="card-img-top" src="..\{{n[2]}}" style="height: 200px; width: 300px; display: block;" alt="Card image cap">
+                            <h4 class="card-title">{{n[0]}}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <h5>R$ {{n[1]}}</h5>
+                            <h5><span class="glyphicon glyphicon-record"></span> {{distances[loop.index-1]}} KM</h5>
+                            <form role="form" method="post" action="/product">
+                                <input value = "{{n[3]}}" type="hidden" name="id" id="singlebutton" name="singlebutton">
+                                <input type="submit" class="btn btn-primary" value="Ver produto">
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function Edit(elm){
+                $.ajax({
+                    url : '/product',
+                    data : {id:$(elm).attr('id')},
+                    type : 'POST',
+                    success: function(res){
+                        console.log(res);
+                        
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            var x = document.getElementById("demo");
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.watchPosition(showPosition);
+                } else {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            }
+
+            function showPosition(position) {
+                document.getElementById("latitude").value = position.coords.latitude;
+                document.getElementById("longitude").value = position.coords.longitude;
+            }
+        </script>
+
+        <script src="../static/js/jquery-1.11.2.js"></script>
+        <script src="../static/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+        <script src="../static/js/bootstrap.min.js"></script>
+    
+    </body>
 </html>

@@ -1,46 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Editar Informações</title>
+  	<head>
+	    <title>Editar Informações</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-   
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/home.css" rel="stylesheet">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	   
+	    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="../static/css/home.css" rel="stylesheet">
 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    
-    <script src="../static/js/jquery-1.11.2.js"></script>
-
-	<script src="../static/js/jquery.ui.widget.js"></script>
-	
-    <script src="../static/js/bootstrap.min.js"></script>
-	
-
-    <style>
-	.btn-file {
-    position: relative;
-    overflow: hidden;
-	}
-	.btn-file input[type=file] {
-	    position: absolute;
-	    top: 0;
-	    right: 0;
-	    min-width: 100%;
-	    min-height: 100%;
-	    font-size: 100px;
-	    text-align: right;
-	    filter: alpha(opacity=0);
-	    opacity: 0;
-	    outline: none;
-	    background: white;
-	    cursor: inherit;
-	    display: block;
-	}
-    </style>
+	    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+	    
+	    <style>
+			.btn-file {
+		    	position: relative;
+		    	overflow: hidden;
+			}
+			.btn-file input[type=file] {
+			    position: absolute;
+			    top: 0;
+			    right: 0;
+			    min-width: 100%;
+			    min-height: 100%;
+			    font-size: 100px;
+			    text-align: right;
+			    filter: alpha(opacity=0);
+			    opacity: 0;
+			    outline: none;
+			    background: white;
+			    cursor: inherit;
+			    display: block;
+			}
+	    </style>
    
   	</head>
 
@@ -58,6 +50,7 @@
 	                        </button>
 	                        <a class="navbar-brand" href="/userHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
 	                    </div>
+
 	                    <div id="navbar-collapse" class="collapse navbar-collapse">
 	                        <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
 	                            <div class="input-group" style="padding-left: 70px; width: 200%;">
@@ -67,6 +60,7 @@
 	                                </span>
 	                            </div>
 	                        </form>
+
 	                        <ul class="nav navbar-nav navbar-right">
 	                            <li class="dropdown">
 	                                <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../static/user_img.png" class="img-responsive img-thumbnail img-circle">{{storename}}</a>
@@ -97,7 +91,6 @@
 		  				<input id="storename" name="storename" type="text" value='{{storename}}' class="form-control input-md">		
 					</div>
 
-					<!-- Text input-->
 					<div class="form-group">
 		  				<label  for="email">Email</label>  
 		  
@@ -123,18 +116,19 @@
 					    <input id="singlebutton" name="singlebutton" class="btn btn-lg btn-primary" type="submit" value="Aplicar" />
 					  	</p>
 					</div>
-
-
 				</form>
 			</div>
-
-
-	      
 
 			<footer class="footer">
 				<p>&copy; Company 2015</p>
 			</footer>
 
 	    </div>
-  </body>
+
+	    <script src="../static/js/jquery-1.11.2.js"></script>
+
+		<script src="../static/js/jquery.ui.widget.js"></script>
+	
+    	<script src="../static/js/bootstrap.min.js"></script>
+  	</body>
 </html>
