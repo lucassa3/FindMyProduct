@@ -44,8 +44,10 @@ def validateLogin():
 def userHome():
 	if session.get('user'):
 		username = dao.getUserFromId(str(session.get('user')))
-		
-		return render_template('userHome.html', username=username)
+
+		brand_list = dao.listBrand()
+
+		return render_template('userHome.html', username=username,brand_list=brand_list)
 	
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
@@ -179,11 +181,18 @@ def userSearch():
 		search = request.form['search']
 		lat = request.form['latitude']
 		lng = request.form['longitude']
+		checkbox = request.form['radio']
 
 		lat1 = ""
 		lng1 = ""
 
-		result = dao.searchProduct(search)
+		brand_list = dao.listBrand()		
+		
+		if checkbox == "none":
+			result = dao.searchProduct(search)
+		else:
+			result = dao.searchProductByBrand(search,checkbox)
+
 		username = dao.getUserFromId(str(session.get('user')))
 		
 		distances = []
@@ -196,10 +205,11 @@ def userSearch():
 
 		if result:
 
-			return render_template('userHome.html', result=result, username=username, distances=distances)
+			return render_template('userHome.html', result=result, username=username, distances=distances, brand_list=brand_list)
 
 		else:
 			return "nenhum produto encontrado!"
+		
 
 
 

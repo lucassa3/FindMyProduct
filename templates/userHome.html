@@ -12,10 +12,12 @@
         <link href="../static/css/bootstrap.min.css" rel="stylesheet">
         <link href="../static/css/home.css" rel="stylesheet">
         <link href="../static/css/album.css" rel="stylesheet">
+        <link href="../static/css/radio.css" rel="stylesheet">
 
     </head>
     
     <body onload="getLocation();">
+        <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
         <div id="navbar-wrapper">
             <header>
                 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -31,7 +33,7 @@
                         </div>
 
                         <div id="navbar-collapse" class="collapse navbar-collapse">
-                            <form class="navbar-form navbar-left" role="search" method="post" action="/userHome/search">
+                            <div class="navbar-form navbar-left">
                                 <div class="input-group" style="padding-left: 70px; width: 200%;">
                                     <input type="text" class="form-control" placeholder="Busque um produto" name="search">
                                     <input value ="21" name="latitude"  id="latitude" type="hidden">
@@ -40,7 +42,7 @@
                                         <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                     </span>
                                 </div>
-                            </form>
+                            </div>
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">
@@ -87,8 +89,12 @@
                                 <b class="caret"></b>
                             </a>
                             <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
-      							<li><input type="checkbox" name="vehicle" value="Bike"><i class="fa fa-caret-right" style="background-color: blue;"></i> I have a bike</li>
-      							<li><input type="checkbox" name="vehicle" value="Bike"><i class="fa fa-caret-right"></i> I have a bike</li>
+
+                                <input type="radio" name="radio" value="none" checked>Todas<br>
+                                {% for i in brand_list %}
+                                    <input type="radio" name="radio" value="{{i[0]}}">{{i[0]}}<br>
+                                {% endfor %}
+
                             </ul>
                         </li>
 
@@ -112,6 +118,7 @@
             <main id="page-content-wrapper" role="main"></main>
 
         </div>
+        </form>
 
         <div style="padding-top: 10px; padding-left: 250px;">
             

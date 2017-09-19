@@ -95,6 +95,10 @@ class DAO:
 		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%';")
 		return result
 
+	def searchProductByBrand(self, name, brand):
+		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and marca='"+brand+"' and p.nome like '%"+name+"%';")
+		return result
+
 	def getProductById(self, product_id):
 		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and produto_id='"+product_id+"';")
 		return result
@@ -132,4 +136,8 @@ class DAO:
 		a = 0.5 - cos((lat2 - lat1) * p)/2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
 		distance = 12742 * asin(sqrt(a)) 
 		return distance #Km
+
+	def listBrand(self):
+		brand_list = self.db.run("select distinct marca from produto;")
+		return brand_list
 
