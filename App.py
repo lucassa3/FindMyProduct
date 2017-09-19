@@ -219,6 +219,27 @@ def product():
 		else:
 			return "acesso nao autorizado!"
 
+@app.route("/validateBuy", methods=['POST'])
+def validateBuy():
+	if request.method == 'POST':
+		if session.get('user'):
+			product_id = request.form['product_id']
+			username_id = str(session.get('user'))
+			date = request.form['date']
+			quantity = request.form['quantity']
+			
+			print("id prod "+product_id)
+			print("id user "+username_id)
+			print("data " +date)
+			print("quantity " +quantity)
+
+			dao.userBuyProduct(date, username_id, product_id, quantity)
+			username = dao.getUserFromId(str(session.get('user')));
+
+			return render_template('productPurchased.html', username=username)
+
+		else:
+			return "acesso nao autorizado!"
 
 
 ###############################STORE-ROUTES########################################

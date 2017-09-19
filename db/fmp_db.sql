@@ -81,6 +81,7 @@ DROP TABLE IF EXISTS `fmp_db`.`compra` ;
 CREATE TABLE IF NOT EXISTS `fmp_db`.`compra` (
   `compra_id` INT NOT NULL AUTO_INCREMENT,
   `data_compra` DATE NOT NULL,
+  `quantidade` INT NOT NULL,
   `usuario_usuario_id` INT UNSIGNED NOT NULL,
   `produto_produto_id` INT NOT NULL,
   PRIMARY KEY (`compra_id`),

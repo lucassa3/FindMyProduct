@@ -36,7 +36,7 @@
    
   	</head>
 
-  	<body onload="getLocation();">
+  	<body onload="getLocation(); getDate();">
   		<div id="navbar-wrapper">
             <header>
                 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -101,20 +101,23 @@
                         <h3 style="margin-top:0px;">{{distance}} Km</h3>
     	    
     	                <!-- Detalles especificos del producto -->
-
-    	                <div class="section" style="padding-bottom:20px;">
-    	                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
-    	                    <div>
-    	                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
-    	                        <input value="1" />
-    	                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
-    	                    </div>
-    	                </div>                
-    	    
-    	                <!-- Botones de compra -->
-    	                <div class="section" style="padding-bottom:20px;">
-    	                    <button class="btn btn-success"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Comprar</button>
-    	                </div>                                        
+                        <form method="post" action="/validateBuy">
+        	                <div class="section" style="padding-bottom:20px;">
+        	                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
+        	                    <div>
+        	                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
+        	                        <input value="1" name="quantity" id="quantity" />
+                                    <input type="hidden" value="15" name="date" id="date" />
+                                    <input type="hidden" value="{{product[0][0]}}" name="product_id" id="product_id" />
+        	                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+        	                    </div>
+        	                </div>                
+        	    
+        	                <!-- Botones de compra -->
+        	                <div class="section" style="padding-bottom:20px;">
+        	                    <button class="btn btn-success" type="submit"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Comprar</button>
+        	                </div>
+                        </form>                                        
     	            </div>
     	        </div>
 
@@ -152,7 +155,7 @@
                     zoom:14,
                 };
 
-                var map = new google.maps.Map(document.getElementById("googleMap"),mapProp, marker, infoWindow);
+                var map = new google.maps.Map(document.getElementById("googleMap"),mapProp, marker);
 
                 var marker = new google.maps.Marker(
                 {
@@ -177,35 +180,23 @@
 
         <script> 
             $(document).ready(function(){
-                //-- Click on detail
-                $("ul.menu-items > li").on("click",function(){
-                    $("ul.menu-items > li").removeClass("active");
-                    $(this).addClass("active");
-                })
 
-                $(".attr,.attr2").on("click",function(){
-                    var clase = $(this).attr("class");
-
-                    $("." + clase).removeClass("active");
-                    $(this).addClass("active");
-                })
-
-                //-- Click on QUANTITY
                 $(".btn-minus").on("click",function(){
-                    var now = $(".section > div > input").val();
+                    var now = document.getElementById("quantity").value;
                     if ($.isNumeric(now)){
                         if (parseInt(now) -1 > 0){ now--;}
-                        $(".section > div > input").val(now);
+                        document.getElementById("quantity").value = now;
                     }else{
-                        $(".section > div > input").val("1");
+                        document.getElementById("quantity").value = 1;
                     }
                 })            
+                
                 $(".btn-plus").on("click",function(){
-                    var now = $(".section > div > input").val();
+                    var now = document.getElementById("quantity").value;
                     if ($.isNumeric(now)){
-                        $(".section > div > input").val(parseInt(now)+1);
+                        document.getElementById("quantity").value = parseInt(now)+1;
                     }else{
-                        $(".section > div > input").val("1");
+                        document.getElementById("quantity").value = now;
                     }
                 })                        
             }) 
@@ -225,6 +216,19 @@
                 document.getElementById("longitude").value = position.coords.longitude;
             }
         </script>
+
+        <script>
+            function getDate() {
+                n =  new Date();
+                y = n.getFullYear();
+                m = n.getMonth() + 1;
+                d = n.getDate();
+                document.getElementById("date").value = y + "-" + m + "-" + d;  
+            }   
+        </script>
+
+        
+
 
     </body>
 </html>
