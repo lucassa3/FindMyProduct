@@ -107,9 +107,13 @@ class DAO:
 		self.db.run("insert into compra(data_compra, usuario_usuario_id, produto_produto_id, quantidade) VALUES('"+purchase_date+"','"+user_id+"','"+product_id+"','"+quantity+"');")
 		self.db.run("update produto set quantidade= quantidade - "+quantity+" where produto_id='"+product_id+"';")
 
-		
+
 	def getProductById(self, product_id):
 		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and produto_id='"+product_id+"';")
+		return result
+
+	def getStoreProducts(self, store_id):
+		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and p.loja_loja_id='"+store_id+"';")
 		return result
 
 	def isUserEmailAlreadyRegistered(self, email):
@@ -128,6 +132,9 @@ class DAO:
 
 	def editUser(self, user_id, name, lastname, email, birth_date, gender):
 		self.db.run("update usuario set nome='"+name+"', sobrenome='"+lastname+"',email='"+email+"', data_nasc='"+birth_date+"',sexo='"+gender+"' where usuario_id='"+user_id+"';")
+
+	def editProduct(self, product_id, name, brand, price, description, stock):
+		self.db.run("update produto set nome='"+name+"', marca='"+brand+"', preco='"+price+"', descricao='"+description+"',quantidade='"+stock+"' where produto_id='"+product_id+"';")
 
 	def editUserPassword(self, user_id, password):
 		hash_pass = generate_password_hash(password)

@@ -274,10 +274,53 @@ def validateStoreLogin():
 
 
 @app.route("/storeHome")
-def StoreHome():
+def storeHome():
 	if session.get('store'):
 		storename = dao.getStoreNameFromId(str(session.get('store')));
 		return render_template('storeHome.html', storename=storename)
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+
+@app.route("/storeProducts")
+def storeProducts():
+	if session.get('store'):
+		storename = dao.getStoreNameFromId(str(session.get('store')));
+		products = dao.getStoreProducts(str(session.get('store')))
+		return render_template('storeProducts.html', storename=storename, products=products)
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+@app.route("/getProductById", methods=['POST'])
+def getProductById():
+	if session.get('store'):
+		product_id = request.form['id']
+		storename = dao.getStoreNameFromId(str(session.get('store')))
+		product = dao.getProductById(product_id)
+
+
+		product_list = []
+		product_list.append({'produto_id':product[0][0],'preco': str(product[0][1]),'marca':product[0][2],'nome':product[0][3],'descricao':product[0][5],'quantidade':product[0][6]})
+
+		return json.dumps(product_list)
+
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+@app.route("/updateProduct", methods=['POST'])
+def updateProduct():
+	if session.get('store'):
+		product_id = request.form['product_id']
+		name = request.form['name']
+		brand = request.form['brand']
+		price = request.form['price']
+		stock = request.form['stock']
+		description = request.form['description']
+
+		dao.editProduct(product_id, name, brand, price, description, stock)
+		
+		return json.dumps({'status':'OK'})
+
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
 
@@ -421,6 +464,8 @@ def validateStoreEdit():
 def userStorePassword():
 	storename = dao.getStoreNameFromId(str(session.get('store')));
 	return render_template('storeEditPassword.html',storename=storename)
+
+
 
 @app.route('/validateStoreEditPassword', methods=['POST'])
 def validateStoreEditPassword():
