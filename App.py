@@ -127,18 +127,18 @@ def validateUserEdit():
 		email = request.form['email']
 		birth_date = request.form['birth_date']
 
-		email_check = dao.isStoreEmailAlreadyRegistered(email)
+		current_email = dao.getEmailFromId(str(session.get('user')))
+		
+		email_check = dao.isUserEmailAlreadyRegistered(email)
 
-		if email_check == False:
+		if current_email == email or email_check == False:
+
 
 			dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+			return redirect('/userInfo')
 
 		else:
 			return "Email já escolhido"
-
-		
-
-		return redirect('/userInfo')
 
 
 
@@ -382,15 +382,16 @@ def validateStoreEdit():
 		phone = request.form['phone']
 		address = request.form['address']
 
+		current_email = dao.getStoreEmailFromId(str(session.get('store')));
 		email_check = dao.isStoreEmailAlreadyRegistered(email)
 
-		if email_check == False:
+		if current_email == email or email_check == False:
 			dao.editStore(str(session.get('store')),address,phone,storename,email)
+			return redirect('/storeInfo')
 
 		else:
 			return "Email já escolhido"
 
-		return redirect('/storeInfo')
 
 @app.route('/storeEditPassword', methods=['POST'])
 def userStorePassword():
