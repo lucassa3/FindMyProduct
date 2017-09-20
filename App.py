@@ -44,7 +44,7 @@ def userHome():
 	if session.get('user'):
 		username = dao.getUserFromId(str(session.get('user')))
 
-		brand_list = dao.listBrand()
+		brand_list = []
 
 		return render_template('userHome.html', username=username,brand_list=brand_list)
 	
@@ -186,7 +186,7 @@ def userSearch():
 		lat1 = ""
 		lng1 = ""
 
-		brand_list = dao.listBrand()		
+		brand_list = dao.listBrand(search)		
 		
 		if checkbox == "none":
 			result = dao.searchProduct(search)

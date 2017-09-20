@@ -35,3 +35,12 @@ class ConnectionHelper:
             	result_list.append(result)
         return result_list
 
+    def callproc(self, query, args):
+        result_list = []
+        with self.connection.cursor() as cursor:
+            print('Executando query:')
+            cursor.callproc(query, args)
+            for result in cursor.fetchall():
+                result_list.append(result)
+        return result_list
+

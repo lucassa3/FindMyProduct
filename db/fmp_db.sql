@@ -138,3 +138,12 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_store_products`(
+    IN store_id VARCHAR(20)
+)
+BEGIN
+        select * from produto p, loja l where p.loja_loja_id = l.loja_id and p.loja_loja_id = store_id;
+END$$
+DELIMITER ;

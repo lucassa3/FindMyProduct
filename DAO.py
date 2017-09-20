@@ -113,7 +113,8 @@ class DAO:
 		return result
 
 	def getStoreProducts(self, store_id):
-		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and p.loja_loja_id='"+store_id+"';")
+		result = self.db.callproc('get_store_products',(store_id))
+		#result = self.db.run("call get_store_products ('"+store_id+"');")
 		return result
 
 	def isUserEmailAlreadyRegistered(self, email):
@@ -153,7 +154,7 @@ class DAO:
 		distance = 12742 * asin(sqrt(a)) 
 		return distance #Km
 
-	def listBrand(self):
-		brand_list = self.db.run("select distinct marca from produto;")
+	def listBrand(self, name):
+		brand_list = self.db.run("select distinct marca from produto where nome like '%"+name+"%';")
 		return brand_list
 
