@@ -79,6 +79,7 @@
                             </div>
                             <div class="pull-right action-buttons">
                                 <a data-id={{n[0]}} onclick="Edit(this)" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a data-id={{n[0]}} onclick="ConfirmDelete(this)" ><span class="glyphicon glyphicon-trash"></span></a>
                             </div>
                         </li>
                         {% endfor %}
@@ -132,8 +133,23 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnUpdate" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <button type="button" id="btnUpdate" class="btn btn-primary">Atualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="text-align:center;">
+                        <h4 class="modal-title" style="color:red;" id="deleteModalLabel">You are going to Delete this forever !!</h4>
+                    </div>
+         
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="Delete()">Deletar</button>
                     </div>
                 </div>
             </div>
@@ -164,6 +180,35 @@
 
                         $('#editModal').modal();
                            
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            function ConfirmDelete(elem){
+                localStorage.setItem('deleteId',$(elem).attr('data-id'));
+                $('#deleteModal').modal();
+            }
+        </script>
+
+        <script>
+            function Delete(){
+                $.ajax({
+                    url : '/deleteProduct',
+                    data : {id:localStorage.getItem('deleteId')},
+                    type : 'POST',
+                    success: function(res){
+                        var result = JSON.parse(res);
+                        if(result.status == 'OK'){
+                            $('#deleteModal').modal('hide');
+                        }
+                        else{
+                            alert(result.status);   
+                        }
                     },
                     error: function(error){
                         console.log(error);

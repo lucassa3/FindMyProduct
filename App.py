@@ -324,6 +324,17 @@ def updateProduct():
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
 
+@app.route("/deleteProduct", methods=['POST'])
+def deleteProduct():
+	if session.get('store'):
+		product_id = request.form['id']
+
+		dao.deleteProduct(product_id)
+		
+		return json.dumps({'status':'OK'})
+	else:
+		return json.dumps({'status':'An Error occured'})
+
 
 @app.route("/storeRegister")
 def storeRegister():

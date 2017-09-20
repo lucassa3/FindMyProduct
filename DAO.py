@@ -154,6 +154,10 @@ class DAO:
 		distance = 12742 * asin(sqrt(a)) 
 		return distance #Km
 
+	def deleteProduct(self, product_id):
+		self.db.run("delete from produto where produto_id = '"+product_id+"';")
+
+
 	def listBrand(self, name):
 		brand_list = self.db.run("select distinct marca from produto where nome like '%"+name+"%';")
 		return brand_list
