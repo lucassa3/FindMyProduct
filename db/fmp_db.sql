@@ -139,8 +139,9 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+DROP PROCEDURE IF EXISTS get_store_products;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_store_products`(
+CREATE DEFINER=`fmp_user`@`localhost` PROCEDURE `get_store_products`(
     IN store_id VARCHAR(20)
 )
 BEGIN
