@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, flash, redirect, session, json, jsonify, url_for
 from DAO import DAO
+import requests
 import uuid
 import os
 
 app = Flask(__name__)
 app.secret_key = '123456'
+
+
 
 dao = DAO()
 
@@ -134,10 +137,38 @@ def validateStoreRegister():
 		password = request.form['password']
 		check_password = request.form['check_password']
 
+		address_init = "https://maps.googleapis.com/maps/api/geocode/json?address="
+		api_key = "&key=AIzaSyDsHltt99bw8drFOi4wUqdYJ3LQO4tWZh8"
+
+		address_list = str(address).split()
+		print(address_list)
+		address_for_url = ""
+
+		for i in address_list:
+			address_for_url += str(i) + "+"
+
+		address_for_url = address_for_url[:-1]
+		print(address_for_url)
+
+		final_address = address_init + address_for_url + api_key
+		print(final_address)
+		address_info = requests.get(final_address).json()
+		print(address_info["results"])
+		
+		lat = ""
+		lng = ""
+
+		for i in address_info["results"]:
+			lat = str(i["geometry"]["location"]["lat"])
+			lng = str(i["geometry"]["location"]["lng"])
+
+
+
+
 		email_check = dao.isStoreEmailAlreadyRegistered(email)
 		if email_check == False:
 			if password == check_password:
-				dao.validateStoreRegister(name, telephone, address, email, password)
+				dao.validateStoreRegister(name, telephone, address, email, password, lat, lng)
 				return redirect("/storeSignIn")
 			else:
 				return "as senhas nao coincidem!"
