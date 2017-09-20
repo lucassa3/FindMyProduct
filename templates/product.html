@@ -230,5 +230,96 @@
         
 
 
+<<<<<<< HEAD
+	      	<div class="row">
+	          	<div class="col-xs-4 item-photo">
+	                <img style="max-width:100%;" src="..\{{product[0][4]}}" />
+	            </div>
+
+	            <div class="col-xs-8" style="border:0px solid gray">
+	                <!-- Datos del vendedor y titulo del producto -->
+	                <h3>{{product[0][3]}}</h3>    
+	                <h5 style="color:#337ab7">vendido por <a href="#">{{product[0][11]}}</a> · <small style="color:#337ab7">(5054 ventas)</small></h5>
+	    			
+	    			<!-- Precios -->
+	                <h6 class="title-price"><small>MARCA</small></h6>
+	                <h3 style="margin-top:0px;">{{product[0][2]}}</h3>
+
+	                <!-- Precios -->
+	                <h6 class="title-price"><small>PREÇO</small></h6>
+	                <h3 style="margin-top:0px;">R$ {{product[0][1]}}</h3>
+	    
+	                <!-- Detalles especificos del producto -->
+	                <div class="section">
+	                    <h6 class="title-attr" style="margin-top:15px;" ><small>COLOR</small></h6>                    
+	                    <div>
+	                        <div class="attr" style="width:25px;background:#5a5a5a;"></div>
+	                        <div class="attr" style="width:25px;background:white;"></div>
+	                    </div>
+	                </div>
+
+	                <div class="section" style="padding-bottom:5px;">
+	                    <h6 class="title-attr"><small>CAPACIDADE</small></h6>                    
+	                    <div>
+	                        <div class="attr2">16 GB</div>
+	                        <div class="attr2">32 GB</div>
+	                    </div>
+	                </div>
+
+	                <div class="section" style="padding-bottom:20px;">
+	                    <h6 class="title-attr"><small>QUANTIDADE</small></h6>
+	                    <div>
+	                        <div class="btn-minus"><span class="glyphicon glyphicon-minus"></span></div>
+	                        <input value="1" />
+	                        <div class="btn-plus"><span class="glyphicon glyphicon-plus"></span></div>
+	                    </div>
+	                </div>                
+	    
+	                <!-- Botones de compra -->
+	                <div class="section" style="padding-bottom:20px;">
+	                    <button class="btn btn-success"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Comprar</button>
+	                </div>                                        
+	            </div>
+	        </div>
+
+	        <div class="form-group">
+	  			<label for="">Descrição</label>  
+	  			<div>{{product[0][5]}}</div>		
+			</div>
+
+			<div class="form-group">
+	  			<label for="">Localização</label>  
+	  			<div>{{product[0][9]}}</div>		
+			</div>
+
+			<div id="googleMap" style="width:100%;height:400px;"></div>
+
+			<script>
+				function myMap() {
+					var myLatLng = {lat: {{product[0][14]}}, lng: {{product[0][15]}}};
+				var mapProp= {
+				    center:new google.maps.LatLng({{product[0][14]}},{{product[0][15]}}),
+				    zoom:20,
+				};
+				var map = new google.maps.Map(document.getElementById("googleMap"),mapProp, marker);
+				}
+
+				var marker = new google.maps.Marker({
+		          	position: myLatLng,
+		          	map: map,
+		          	title: 'Hello World!'
+		        });
+			</script>
+
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsHltt99bw8drFOi4wUqdYJ3LQO4tWZh8&callback=myMap"></script>
+	    </div>
+
+	    <footer class="footer">
+			<p>&copy; Company 2015</p>
+		</footer>
+
+  </body>
+=======
     </body>
+>>>>>>> 3df1bc1708b12c2db9a52dcdfe36be5262fb01bb
 </html>
