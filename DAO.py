@@ -103,6 +103,10 @@ class DAO:
 		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%' and p.quantidade = 0;")
 		return result
 
+	def searchSoldOutByBrand(self, name, brand):
+		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and marca='"+brand+"' and p.nome like '%"+name+"%' and p.quantidade = 0;")
+		return result
+
 	def userBuyProduct(self, purchase_date, user_id, product_id, quantity):
 		self.db.run("insert into compra(data_compra, usuario_usuario_id, produto_produto_id, quantidade) VALUES('"+purchase_date+"','"+user_id+"','"+product_id+"','"+quantity+"');")
 		self.db.run("update produto set quantidade= quantidade - "+quantity+" where produto_id='"+product_id+"';")
@@ -161,4 +165,9 @@ class DAO:
 	def listBrand(self, name):
 		brand_list = self.db.run("select distinct marca from produto where nome like '%"+name+"%';")
 		return brand_list
+
+	def listCompras(self, storename):
+		result = self.db.run("select p.nome, c.quantidade, u.nome, c.data_compra from compra c,usuario u,loja l,produto p where c.usuario_usuario_id = u.usuario_id and c.produto_produto_id = p.produto_id and p.loja_loja_id = l.loja_id and l.nome='"+storename+"';")
+		return result
+
 
