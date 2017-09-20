@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  	<head>
+	    <title>Minha Loja</title>
+
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	   
+	    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="../static/css/home.css" rel="stylesheet">
+
+	    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+	    <style>
+			.btn-file {
+	    		position: relative;
+	    		overflow: hidden;
+			}
+			.btn-file input[type=file] {
+			    position: absolute;
+			    top: 0;
+			    right: 0;
+			    min-width: 100%;
+			    min-height: 100%;
+			    font-size: 100px;
+			    text-align: right;
+			    filter: alpha(opacity=0);
+			    opacity: 0;
+			    outline: none;
+			    background: white;
+			    cursor: inherit;
+			    display: block;
+			}
+	    </style>
+   
+  	</head>
+
+  	<body>
+  		<div id="navbar-wrapper">
+	        <header>
+	            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	                <div class="container-fluid">
+	                    <div class="navbar-header">
+	                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+	                            <span class="sr-only">Toggle navigation</span>
+	                            <span class="icon-bar"></span>
+	                            <span class="icon-bar"></span>
+	                            <span class="icon-bar"></span>
+	                        </button>
+	                        <a class="navbar-brand" href="/storeHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
+	                    </div>
+	                    <div id="navbar-collapse" class="collapse navbar-collapse">
+	                        <ul class="nav navbar-nav navbar-right">
+	                            <li class="dropdown">
+	                                <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../static/user_img.png" class="img-responsive img-thumbnail img-circle">{{storename}}</a>
+	                                <ul class="dropdown-menu dropdown-block" role="menu">
+	                                    <li><a href="/storeInfo">Minha Conta</a></li>
+	                                    <li><a href="/storeLogout">Sair</a></li>
+	                                </ul>
+	                            </li>	
+	                        </ul>
+	                    </div>
+	                </div>
+	            </nav>
+	        </header>
+  		</div>
+
+	    <div class="container" style="padding-top: 50px">
+
+	      	<div class="header">
+	        	<h2>Minha Loja</h2>
+	      	</div>
+	     
+
+			<div class="well">
+
+					<!-- Text input-->
+					<div class="form-group">
+		  				<label  for="storename">Loja</label>  
+		  				<div>{{storename}}</div>		
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+		  				<label  for="email">Email</label>  
+		  
+		  				<div>{{email}}</div>		
+					</div>
+
+					<div class="form-group">
+		  				<label  for="phone">Telefone</label>  
+		  				<div>{{phone}}</div>
+		  						
+					</div>
+
+					<div class="form-group">
+						<label  for="address">Endereço</label> 
+		  				<div>{{address}}</div>	
+					</div>
+
+					<!-- Button -->
+					<div class="form-group">
+					  
+					    <form class="text-left" action="/storeEdit" method="post">
+					    	<input id="singlebutton" name="singlebutton" class="btn btn-lg btn-primary" type="submit" value="Editar Informações">
+					    </form>
+					    <br>
+					    <form action="/storeEditPassword" method="post">
+					    	<input id="singlebutton" name="singlebutton" class="btn btn-lg btn-primary" type="submit" value="   Trocar Senha  ">
+					  	</form>
+					  	
+					</div>
+			</div>
+
+			<footer class="footer">
+				<p>&copy; Astur e Toyama 2017</p>
+			</footer>
+
+	    </div>
+
+	    <script src="../static/js/jquery-1.11.2.js"></script>
+
+		<script src="../static/js/jquery.ui.widget.js"></script>
+	
+    	<script src="../static/js/bootstrap.min.js"></script>
+
+  	</body>
+</html>

@@ -8,7 +8,10 @@ app = Flask(__name__)
 app.secret_key = '123456'
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3df1bc1708b12c2db9a52dcdfe36be5262fb01bb
 dao = DAO()
 
 app.config['UPLOAD_FOLDER'] = 'static/Uploads'
@@ -16,9 +19,11 @@ app.config['UPLOAD_FOLDER'] = 'static/Uploads'
 @app.route("/")
 def main():
 	if session.get('user'):
+		
 		return redirect('/userHome')
 	
 	return render_template('index.html')
+
 
 
 @app.route("/validateLogin", methods=['POST'])
@@ -31,22 +36,32 @@ def validateLogin():
 	if pass_check:
 		session['user'] = pass_check
 		return redirect('/userHome')
+
 	else:
- 		return "USUARIO E/OU SENHA NÃO ENCONTRADOS"
+		flash('USUÁRIO E/OU SENHA INVÁLIDOS')
+		return redirect('/')
+
 
 
 @app.route("/userHome", methods=['GET'])
 def userHome():
 	if session.get('user'):
 		username = dao.getUserFromId(str(session.get('user')))
-		return render_template('userHome.html', username=username)
+
+		brand_list = []
+
+		return render_template('userHome.html', username=username,brand_list=brand_list)
+	
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
 
 
+
 @app.route("/userRegister")
 def register():
+	
 	return render_template('userRegister.html')
+
 
 
 @app.route("/validateUserRegister", methods=['POST'])
@@ -61,35 +76,184 @@ def validateRegister():
 		check_password = request.form['check_password']
 
 		email_check = dao.isUserEmailAlreadyRegistered(email)
+		
 		if email_check == False:
 			if password == check_password:
 				dao.validateUserRegister(name, lastname, gender, email, password, birth_date)
+				
 				return redirect("/")
+			
 			else:
 				return "as senhas nao coincidem!"
+		
 		else:
 			return "email ja escolhido!"
+
+
+
+@app.route('/userInfo')
+def userInfo():
+	if session.get('user'):
+		username = dao.getUserFromId(str(session.get('user')))
+		lastname = dao.getLastNameFromId(str(session.get('user')))
+		email = dao.getEmailFromId(str(session.get('user')))
+		birth_date = dao.getBirthDateFromId(str(session.get('user')))
+		gender = dao.getGenderFromId(str(session.get('user')))
+		password = dao.getPasswordFromId(str(session.get('user')))
+
+		return render_template("userInfo.html",username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
+
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+
+@app.route('/userEdit', methods=['POST'])
+def editUserInfo():
+	if session.get('user'):
+		username = dao.getUserFromId(str(session.get('user')))
+		lastname = dao.getLastNameFromId(str(session.get('user')))
+		email = dao.getEmailFromId(str(session.get('user')))
+		birth_date = dao.getBirthDateFromId(str(session.get('user')))
+		gender = dao.getGenderFromId(str(session.get('user')))
+
+		return render_template("userEdit.html", username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
+
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+
+
+@app.route('/validateUserEdit', methods=['POST'])
+def validateUserEdit():
+	if request.method == 'POST':
+		name = request.form['name']
+		lastname = request.form['lastname']
+		gender = request.form['gender']
+		email = request.form['email']
+		birth_date = request.form['birth_date']
+
+		current_email = dao.getEmailFromId(str(session.get('user')))
+		
+		email_check = dao.isUserEmailAlreadyRegistered(email)
+
+		if current_email == email or email_check == False:
+
+
+			dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+			return redirect('/userInfo')
+
+		else:
+			return "Email já escolhido"
+
+
+
+@app.route('/userEditPassword', methods=['POST'])
+def userEditPassword():
+	username = dao.getUserFromId(str(session.get('user')))
+	return render_template('userEditPassword.html',username=username)
+
+
+
+@app.route('/validateUserEditPassword', methods=['POST'])
+def validateUserEditPassword():
+	if request.method == 'POST':
+
+		password = request.form['password']
+		check_password = request.form['check_password']
+
+		if password == check_password:
+			dao.editUserPassword(str(session.get('user')),password)
+
+			return redirect('/userInfo')
+
+		else:
+			return "as senhas nao coincidem!"
+
 
 
 @app.route('/userLogout')
 def logout():
     session.pop('user', None)
+   
     return redirect('/')
+
+
 
 @app.route("/userHome/search", methods=['POST'])
 def userSearch():
 	if session.get('user'):
 		search = request.form['search']
-		result = dao.searchProduct(search)
+		lat = request.form['latitude']
+		lng = request.form['longitude']
+		checkbox = request.form['radio']
+
+		lat1 = ""
+		lng1 = ""
+
+		brand_list = dao.listBrand(search)		
+		
+		if checkbox == "none":
+			result = dao.searchProduct(search)
+			soldout = dao.searchSoldOut(search)
+		else:
+			result = dao.searchProductByBrand(search,checkbox)
+			soldout = dao.searchSoldOut(search)
+
 		username = dao.getUserFromId(str(session.get('user')))
-		print(result)
+		
+		distances = []
+
+		for i in result:
+			lat1 = i[4]
+			lng1 = i[5]
+
+			distances.append(round(dao.distance(float(lat),float(lng),float(lat1),float(lng1)), 2))
+
 		if result:
-			return render_template('userHome.html', result=result, username=username)
+
+			return render_template('userHome.html', result=result, username=username, distances=distances, brand_list=brand_list,soldout=soldout)
+
 		else:
 			return "nenhum produto encontrado!"
+		
 
 
 
+@app.route("/product", methods=['POST'])
+def product():
+	if request.method == 'POST':
+		if session.get('user'):
+			product_id = request.form['id']
+			distance = request.form['distance']
+			
+			
+			product = dao.getProductById(product_id)
+
+
+			username = dao.getUserFromId(str(session.get('user')));
+			return render_template('product.html', product=product, username=username, distance=distance)
+		else:
+			return "acesso nao autorizado!"
+
+@app.route("/validateBuy", methods=['POST'])
+def validateBuy():
+	if request.method == 'POST':
+		if session.get('user'):
+			product_id = request.form['product_id']
+			username_id = str(session.get('user'))
+			date = request.form['date']
+			quantity = request.form['quantity']
+
+			dao.userBuyProduct(date, username_id, product_id, quantity)
+			username = dao.getUserFromId(str(session.get('user')));
+
+			return render_template('productPurchased.html', username=username)
+
+		else:
+			return "acesso nao autorizado!"
+
+
+###############################STORE-ROUTES########################################
 
 
 
@@ -114,10 +278,53 @@ def validateStoreLogin():
 
 
 @app.route("/storeHome")
-def StoreHome():
+def storeHome():
 	if session.get('store'):
 		storename = dao.getStoreNameFromId(str(session.get('store')));
 		return render_template('storeHome.html', storename=storename)
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+
+@app.route("/storeProducts")
+def storeProducts():
+	if session.get('store'):
+		storename = dao.getStoreNameFromId(str(session.get('store')));
+		products = dao.getStoreProducts(str(session.get('store')))
+		return render_template('storeProducts.html', storename=storename, products=products)
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+@app.route("/getProductById", methods=['POST'])
+def getProductById():
+	if session.get('store'):
+		product_id = request.form['id']
+		storename = dao.getStoreNameFromId(str(session.get('store')))
+		product = dao.getProductById(product_id)
+
+
+		product_list = []
+		product_list.append({'produto_id':product[0][0],'preco': str(product[0][1]),'marca':product[0][2],'nome':product[0][3],'descricao':product[0][5],'quantidade':product[0][6]})
+
+		return json.dumps(product_list)
+
+	else:
+		return "ACESSO NÃO AUTORIZADO!"
+
+@app.route("/updateProduct", methods=['POST'])
+def updateProduct():
+	if session.get('store'):
+		product_id = request.form['product_id']
+		name = request.form['name']
+		brand = request.form['brand']
+		price = request.form['price']
+		stock = request.form['stock']
+		description = request.form['description']
+
+		dao.editProduct(product_id, name, brand, price, description, stock)
+		
+		return json.dumps({'status':'OK'})
+
 	else:
 		return "ACESSO NÃO AUTORIZADO!"
 
@@ -162,9 +369,12 @@ def validateStoreRegister():
 			lat = str(i["geometry"]["location"]["lat"])
 			lng = str(i["geometry"]["location"]["lng"])
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 3df1bc1708b12c2db9a52dcdfe36be5262fb01bb
 		email_check = dao.isStoreEmailAlreadyRegistered(email)
 		if email_check == False:
 			if password == check_password:
@@ -175,21 +385,11 @@ def validateStoreRegister():
 		else:
 			return "email ja escolhido!"
 
-@app.route("/product", methods=['POST', 'GET'])
-def product():
-	if request.method == 'POST':
-		product_id = request.form['id']
-		product = dao.getProductById(product_id)
-		return render_template('product.html', product=product)
-	
-
-
-
 @app.route('/addProduct')
 def addProduct():
 	if session.get('store'):
 		storename = dao.getStoreNameFromId(str(session.get('store')));
-		return render_template('/addProduct.html',storename=storename)
+		return render_template('/addProduct.html', storename=storename)
 	else:
 		return "acesso nao autorizado!"
 
@@ -211,14 +411,15 @@ def validateProduct():
 		brand = request.form['brand']
 		price = request.form['price']
 		stock = request.form['stock']
+		description = request.form['description']
 
 		if request.form.get('filePath') is None:
 			filePath = ''
 		else:
 			filePath = request.form.get('filePath')
 
-		dao.storeAddProduct(name, brand, price, stock, filePath, session.get('store'))
-		return "produto adicionado!"
+		dao.storeAddProduct(name, brand, price, stock, filePath, description, session.get('store'))
+		return redirect('/storeHome')
 
 
 @app.route('/storeLogout')
@@ -227,52 +428,59 @@ def storeLogout():
     return redirect('/storeSignIn')
 
 
-@app.route('/userInfo')
-def userInfo():
-	username = dao.getUserFromId(str(session.get('user')))
-	lastname = dao.getLastNameFromId(str(session.get('user')))
-	email = dao.getEmailFromId(str(session.get('user')))
-	birth_date = dao.getBirthDateFromId(str(session.get('user')))
-	gender = dao.getGenderFromId(str(session.get('user')))
-	password = dao.getPasswordFromId(str(session.get('user')))
 
+@app.route('/storeInfo')
+def storeInfo():
 
-	return render_template("userInfo.html",username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
+	address = dao.getAddressFromId(str(session.get('store')));
+	phone = dao.getPhoneFromId(str(session.get('store')));
+	storename = dao.getStoreNameFromId(str(session.get('store')));
+	email = dao.getStoreEmailFromId(str(session.get('store')));
 
-@app.route('/userEdit', methods=['POST'])
-def editUserInfo():
+	return render_template("storeInfo.html",address=address,phone=phone,storename=storename,email=email)
 
-	username = dao.getUserFromId(str(session.get('user')))
-	lastname = dao.getLastNameFromId(str(session.get('user')))
-	email = dao.getEmailFromId(str(session.get('user')))
-	birth_date = dao.getBirthDateFromId(str(session.get('user')))
-	gender = dao.getGenderFromId(str(session.get('user')))
+@app.route('/storeEdit',methods=['POST'])
+def storeEdit():
 
-	return render_template("userEdit.html", username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
+	address = dao.getAddressFromId(str(session.get('store')));
+	phone = dao.getPhoneFromId(str(session.get('store')));
+	storename = dao.getStoreNameFromId(str(session.get('store')));
+	email = dao.getStoreEmailFromId(str(session.get('store')));
 
-@app.route('/validateUserEdit', methods=['POST'])
-def validateUserEdit():
+	return render_template("storeEdit.html",address=address,phone=phone,storename=storename,email=email)
+
+@app.route('/validateStoreEdit', methods=['POST'])
+def validateStoreEdit():
 
 	if request.method == 'POST':
 
-		name = request.form['name']
-		lastname = request.form['lastname']
-		gender = request.form['gender']
+		storename = request.form['storename']
 		email = request.form['email']
-		birth_date = request.form['birth_date']
+		phone = request.form['phone']
+		address = request.form['address']
+
+		current_email = dao.getStoreEmailFromId(str(session.get('store')));
+		email_check = dao.isStoreEmailAlreadyRegistered(email)
+
+		if current_email == email or email_check == False:
+			dao.editStore(str(session.get('store')),address,phone,storename,email)
+			return redirect('/storeInfo')
+
+		else:
+			return "Email já escolhido"
 
 
-		dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+@app.route('/storeEditPassword', methods=['POST'])
+def userStorePassword():
+	storename = dao.getStoreNameFromId(str(session.get('store')));
+	return render_template('storeEditPassword.html',storename=storename)
 
-		return redirect('/userInfo')
 
 
-@app.route('/userEditPassword', methods=['POST'])
-def userEditPassword():
-	return render_template('userEditPassword.html')
 
-@app.route('/validateUserEditPassword', methods=['POST'])
-def validateUserEditPassword():
+
+@app.route('/validateStoreEditPassword', methods=['POST'])
+def validateStoreEditPassword():
 
 	if request.method == 'POST':
 
@@ -281,9 +489,9 @@ def validateUserEditPassword():
 
 		if password == check_password:
 
-			dao.editUserPassword(str(session.get('user')),password)
+			dao.editStorePassword(str(session.get('store')),password)
 
-			return redirect('/userInfo')
+			return redirect('/storeInfo')
 
 		else:
 

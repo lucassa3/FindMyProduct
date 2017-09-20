@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://getbootstrap.com/docs/3.3/examples/navbar-fixed-top/ -->
+<html lang="en">
+    <head>
+
+        <title>Início - Loja</title>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        
+
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../static/css/home.css" rel="stylesheet">
+        <link href="../static/css/album.css" rel="stylesheet">
+
+        <style>
+            .trash {
+                color: rgb(209, 91, 71);
+            }
+            .panel-body .checkbox {
+                display: inline-block;
+                margin: 0px;
+            }
+            .list-group {
+                margin-bottom: 0px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="navbar-wrapper">
+            <header>
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/storeHome"><span>FindMy</span><span style="color: #0033cc;">Product</span></a>
+                        </div>
+                        
+                        <div id="navbar-collapse" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href="/addProduct">Adicionar produto</a></li>
+                            </ul>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../static/user_img.png" class="img-responsive img-thumbnail img-circle">{{storename}}</a>
+                                    <ul class="dropdown-menu dropdown-block" role="menu">
+                                        <li><a href="/storeInfo">Minha Loja</a></li>
+                                        <li><a href="/storeLogout">Sair</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        </div>
+
+
+        <div class="row cont" style="padding-top: 50px;">
+            <div class="col-md-12">
+                <div class="panel-body">
+                    <ul id="ulist" class="list-group">
+
+                        {% for n in products %}
+                        <li class="list-group-item">
+                            <div class="checkbox">
+                                <label>
+                                    {{n[3]}}
+                                </label>
+                            </div>
+                            <div class="pull-right action-buttons">
+                                <a data-id={{n[0]}} onclick="Edit(this)" ><span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                        
+                    </ul>
+                </div>
+                    
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title" id="editModalLabel">Update Wish</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label  for="name">Nome</label>  
+                                <input id="product_id" name="product_id" type="hidden" placeholder="Nome do produto" class="form-control input-md">
+                  
+                                <input id="name" name="name" type="text" placeholder="Nome do produto" class="form-control input-md">       
+                            </div>
+
+                            <div class="form-group">
+                                <label  for="brand">Marca</label>  
+                  
+                                <input id="brand" name="brand" type="text" placeholder="Marca do produto" class="form-control input-md">        
+                            </div>
+
+                            <div class="form-group">
+                                <label  for="price">Preço</label>  
+                  
+                                <input id="price" name="price" type="text" placeholder="Preço" class="form-control input-md">       
+                            </div>
+
+                            <div class="form-group">
+                                <label  for="stock">Quantidade</label>  
+                  
+                                <input id="stock" name="stock" type="text" placeholder="Quantidade disponível em estoque" class="form-control input-md">        
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Descrição do produto</label>
+                                     
+                                <textarea class="form-control" id="description" name="description" placeholder="Descrição do produto"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="btnUpdate" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../static/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+        <script src="../static/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+
+        <script>
+            function Edit(elm){
+                localStorage.setItem('editId', $(elm).attr('data-id'));
+                dado = $(elm).attr('data-id')
+                $.ajax({
+                    url : '/getProductById',
+                    data : {id : dado},
+                    type : 'POST',
+                    success: function(res){
+                        
+                        var data = JSON.parse(res);
+                        $('#product_id').val(data[0]['produto_id']);
+                        $('#name').val(data[0]['nome']);
+                        $('#brand').val(data[0]['marca']);
+                        $('#price').val(data[0]['preco']);
+                        $('#description').val(data[0]['descricao']);
+                        $('#stock').val(data[0]['quantidade']);
+
+                        $('#editModal').modal();
+                           
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            $(function(){
+            
+                $('#btnUpdate').click(function(){
+                    $.ajax({
+                    url : '/updateProduct',
+                    data : {product_id:$('#product_id').val(),
+                            name:$('#name').val(), 
+                            brand:$('#brand').val(),
+                            price:$('#price').val(),
+                            description:$('#description').val(),
+                            stock:$('#stock').val(),
+                            },
+                    type : 'POST',
+                    success: function(res){
+                        
+                        $('#editModal').modal('hide');
+                                            
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+                });
+            });
+        </script>
+
+    </body>
+</html>
