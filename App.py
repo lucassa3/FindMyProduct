@@ -7,11 +7,6 @@ import os
 app = Flask(__name__)
 app.secret_key = '123456'
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 3df1bc1708b12c2db9a52dcdfe36be5262fb01bb
 dao = DAO()
 
 app.config['UPLOAD_FOLDER'] = 'static/Uploads'
@@ -385,12 +380,7 @@ def validateStoreRegister():
 			lat = str(i["geometry"]["location"]["lat"])
 			lng = str(i["geometry"]["location"]["lng"])
 
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> 3df1bc1708b12c2db9a52dcdfe36be5262fb01bb
 		email_check = dao.isStoreEmailAlreadyRegistered(email)
 		if email_check == False:
 			if password == check_password:
