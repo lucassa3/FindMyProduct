@@ -315,7 +315,7 @@ def getProductById():
 
 
 		product_list = []
-		product_list.append({'produto_id':product[0][0],'preco': str(product[0][1]),'marca':product[0][2],'nome':product[0][3],'descricao':product[0][5],'quantidade':product[0][6]})
+		product_list.append({'produto_id':product[0][0],'preco': str(product[0][1]),'marca':product[0][2],'nome':product[0][3],'descricao':product[0][5],'quantidade':product[0][7]})
 
 		return json.dumps(product_list)
 
