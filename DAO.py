@@ -92,7 +92,7 @@ class DAO:
 		self.db.run("insert into produto(nome,marca,preco, quantidade, path_foto, descricao, loja_loja_id) VALUES('"+name+"','"+brand+"','"+price+"','"+stock+"','"+filePath+"','"+description+"','"+str(store_id)+"');")
 	
 	def searchProduct(self, name):
-		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%' and p.quantidade > 0;")
+		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%' and p.quantidade > 0 and p.deletado IS NULL;")
 		return result
 
 	def searchProductByBrand(self, name, brand):
@@ -100,11 +100,11 @@ class DAO:
 		return result
 
 	def searchSoldOut(self, name):
-		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%' and p.quantidade = 0;")
+		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and p.nome like '%"+name+"%' and p.quantidade = 0 and p.deletado IS NULL;")
 		return result
 
 	def searchSoldOutByBrand(self, name, brand):
-		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and marca='"+brand+"' and p.nome like '%"+name+"%' and p.quantidade = 0;")
+		result = self.db.run("select p.nome, p.preco, path_foto, produto_id, latitude, longitude from produto p, loja l where p.loja_loja_id = l.loja_id and marca='"+brand+"' and p.nome like '%"+name+"%' and p.quantidade = 0 and p.deletado IS NULL;")
 		return result
 
 	def userBuyProduct(self, purchase_date, user_id, product_id, quantity):
@@ -113,7 +113,7 @@ class DAO:
 
 
 	def getProductById(self, product_id):
-		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and produto_id='"+product_id+"';")
+		result = self.db.run("select * from produto p, loja l where p.loja_loja_id = l.loja_id and produto_id='"+product_id+"' and p.deletado IS NULL;")
 		return result
 
 	def getStoreProducts(self, store_id):
@@ -159,7 +159,7 @@ class DAO:
 		return distance #Km
 
 	def deleteProduct(self, product_id):
-		self.db.run("delete from produto where produto_id = '"+product_id+"';")
+		self.db.run("update produto set deletado = '"+"Y"+"' where produto_id = '"+product_id+"';")
 
 
 	def listBrand(self, name):

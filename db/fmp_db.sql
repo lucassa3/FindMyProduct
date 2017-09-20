@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `fmp_db`.`produto` (
   `nome` VARCHAR(45) NOT NULL,
   `path_foto` VARCHAR(250),
   `descricao` VARCHAR(250),
+  `deletado` VARCHAR(1),
   `quantidade` INT NOT NULL,
   `loja_loja_id` INT NOT NULL,
   PRIMARY KEY (`produto_id`),
@@ -145,6 +146,6 @@ CREATE DEFINER=`fmp_user`@`localhost` PROCEDURE `get_store_products`(
     IN store_id VARCHAR(20)
 )
 BEGIN
-        select * from produto p, loja l where p.loja_loja_id = l.loja_id and p.loja_loja_id = store_id;
+        select * from produto p, loja l where p.loja_loja_id = l.loja_id and p.loja_loja_id = store_id and p.deletado IS NULL;
 END$$
 DELIMITER ;
