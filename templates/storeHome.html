@@ -14,6 +14,8 @@
         <link href="../static/css/bootstrap.min.css" rel="stylesheet">
         <link href="../static/css/home.css" rel="stylesheet">
         <link href="../static/css/album.css" rel="stylesheet">
+        <link href="../static/css/normalize.min.css" rel="stylesheet">
+        <link href="../static/css/table.css" rel="stylesheet">
 
         <style>
             .trash {
@@ -64,6 +66,36 @@
                 </nav>
             </header>
         </div>
+
+        <div class="row cont" style="padding-top: 50px;">
+            <div class="col-md-12">
+                <div class="panel-body">
+                    <ul id="ulist" class="list-group">
+
+                        <table class="responstable">
+                          
+                          <tbody><tr>
+                            <th data-th="Driver details"><span>Produto</span></th>
+                            <th>Usuário</th>
+                            <th>Quantidade</th>
+                            <th>Data</th>
+                          </tr>
+                          {% for compra in lista_compras %}
+                            <tr>
+                                <td>{{ compra[0] }}</td>
+                                <td>{{ compra[2] }}</td>
+                                <td>{{ compra[1] }}</td>
+                                <td>{{ compra[3] }}</td>
+                            </tr>
+                          {% endfor %}
+                          
+                        </tbody></table>
+                        
+                    </ul>
+                </div>        
+            </div>
+        </div>
+
 
 
         <script src="../static/js/jquery.min.js"></script>

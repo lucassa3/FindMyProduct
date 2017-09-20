@@ -292,7 +292,7 @@ def storeHome():
 		lista_compras = dao.listCompras(storename)
 		print(lista_compras)
 		
-		return render_template('storeHome.html', storename=storename)
+		return render_template('storeHome.html', storename=storename,lista_compras=lista_compras)
 	else:
 		return redirect('/storeSignIn')
 
