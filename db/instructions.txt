@@ -1,0 +1,6 @@
+necessary requirements to run FindMyProduct:
+
+1) run SQL script fmp_db for database build
+2) run SQL script new_user with limited access to database
+3) run app.py
+4) insert 'fmp_user' and '123456' in credential.txt to use new user created.

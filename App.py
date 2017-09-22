@@ -11,6 +11,8 @@ dao = DAO()
 
 app.config['UPLOAD_FOLDER'] = 'static/Uploads'
 
+
+
 @app.route("/")
 def main():
 	if session.get('user'):
@@ -30,10 +32,12 @@ def validateLogin():
 
 	if pass_check:
 		session['user'] = pass_check
+		
 		return redirect('/userHome')
 
 	else:
 		flash('USUÁRIO E/OU SENHA INVÁLIDOS')
+		
 		return redirect('/')
 
 
@@ -48,6 +52,7 @@ def userHome():
 		return render_template('userHome.html', username=username,brand_list=brand_list)
 	
 	else:
+
 		return redirect('/')
 
 
@@ -80,10 +85,12 @@ def validateRegister():
 			
 			else:
 				flash('AS SENHAS NÃO COINCIDEM!')
+				
 				return redirect('/userRegister')
 		
 		else:
 			flash('EMAIL JÁ CADASTRADO!')
+			
 			return redirect('/userRegister')
 
 
@@ -101,7 +108,9 @@ def userInfo():
 		return render_template("userInfo.html",username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
 
 	else:
+		
 		return redirect("/")
+
 
 
 @app.route('/userEdit', methods=['GET','POST'])
@@ -116,7 +125,9 @@ def editUserInfo():
 		return render_template("userEdit.html", username=username,lastname=lastname,email=email,birth_date=birth_date,gender=gender)
 
 	else:
+		
 		return redirect("/")
+
 
 
 
@@ -134,13 +145,13 @@ def validateUserEdit():
 		email_check = dao.isUserEmailAlreadyRegistered(email)
 
 		if current_email == email or email_check == False:
-
-
 			dao.editUser(str(session.get('user')),name,lastname,email,birth_date,gender)
+			
 			return redirect('/userInfo')
 
 		else:
 			flash('EMAIL JÁ CADASTRADO!')
+
 			return redirect('/userEdit')
 
 
@@ -218,12 +229,13 @@ def userSearch():
 
 		else:
 			flash('NENHUM PRODUTO ENCONTRADO')
+			
 			return redirect('/userHome')
 
 	else:
+
 		return redirect("/")
 		
-
 
 
 @app.route("/product", methods=['POST'])
@@ -233,14 +245,17 @@ def product():
 			product_id = request.form['id']
 			distance = request.form['distance']
 			
-			
 			product = dao.getProductById(product_id)
 
-
 			username = dao.getUserFromId(str(session.get('user')));
+			
 			return render_template('product.html', product=product, username=username, distance=distance)
+		
 		else:
+			
 			return redirect("/")
+
+
 
 @app.route("/validateBuy", methods=['POST'])
 def validateBuy():
@@ -257,7 +272,9 @@ def validateBuy():
 			return render_template('productPurchased.html', username=username)
 
 		else:
+			
 			return redirect("/")
+
 
 
 ###############################STORE-ROUTES########################################
@@ -267,8 +284,11 @@ def validateBuy():
 @app.route("/storeSignIn")
 def storeSignIn():
 	if session.get('store'):
+		
 		return redirect('/storeHome')
+	
 	return render_template('storeSignIn.html')
+
 
 
 @app.route("/validateStoreLogin", methods=['POST'])
@@ -279,10 +299,14 @@ def validateStoreLogin():
 	pass_check = dao.validateStorePassword(email, password)
 	if pass_check:
 		session['store'] = pass_check
+		
 		return redirect('/storeHome')
+	
 	else:
 		flash("USUARIO E/OU SENHA INVÁLIDOS!")
+		
 		return redirect('/storeSignIn')
+
 
 
 @app.route("/storeHome")
@@ -293,8 +317,11 @@ def storeHome():
 		print(lista_compras)
 		
 		return render_template('storeHome.html', storename=storename,lista_compras=lista_compras)
+
 	else:
+		
 		return redirect('/storeSignIn')
+
 
 
 @app.route("/storeProducts")
@@ -302,9 +329,14 @@ def storeProducts():
 	if session.get('store'):
 		storename = dao.getStoreNameFromId(str(session.get('store')));
 		products = dao.getStoreProducts(str(session.get('store')))
+		
 		return render_template('storeProducts.html', storename=storename, products=products)
+
 	else:
+		
 		return redirect('/storeSignIn')
+
+
 
 @app.route("/getProductById", methods=['POST'])
 def getProductById():
@@ -320,7 +352,10 @@ def getProductById():
 		return json.dumps(product_list)
 
 	else:
+		
 		return redirect('/storeSignIn')
+
+
 
 @app.route("/updateProduct", methods=['POST'])
 def updateProduct():
@@ -337,7 +372,10 @@ def updateProduct():
 		return json.dumps({'status':'OK'})
 
 	else:
+		
 		return redirect('/storeSignIn')
+
+
 
 @app.route("/deleteProduct", methods=['POST'])
 def deleteProduct():
@@ -347,13 +385,17 @@ def deleteProduct():
 		dao.deleteProduct(product_id)
 		
 		return json.dumps({'status':'OK'})
+	
 	else:
+
 		return json.dumps({'status':'An Error occured'})
+
 
 
 @app.route("/storeRegister")
 def storeRegister():
 	return render_template('storeRegister.html')
+
 
 
 @app.route("/validateStoreRegister", methods=['POST'])
@@ -370,19 +412,15 @@ def validateStoreRegister():
 		api_key = "&key=AIzaSyDsHltt99bw8drFOi4wUqdYJ3LQO4tWZh8"
 
 		address_list = str(address).split()
-		print(address_list)
 		address_for_url = ""
 
 		for i in address_list:
 			address_for_url += str(i) + "+"
 
 		address_for_url = address_for_url[:-1]
-		print(address_for_url)
 
 		final_address = address_init + address_for_url + api_key
-		print(final_address)
 		address_info = requests.get(final_address).json()
-		print(address_info["results"])
 		
 		lat = ""
 		lng = ""
@@ -393,34 +431,50 @@ def validateStoreRegister():
 
 
 		email_check = dao.isStoreEmailAlreadyRegistered(email)
+
 		if email_check == False:
 			if password == check_password:
 				dao.validateStoreRegister(name, telephone, address, email, password, lat, lng)
+				
 				return redirect("/storeSignIn")
+			
 			else:
 				flash("AS SENHAS NÃO COINCIDEM!")
+
 				return redirect("/storeRegister")
 		else:
 			flash("EMAIL JÁ CADASTRADO!")
+
 			return redirect("/storeRegister")
+
+
 
 @app.route('/addProduct')
 def addProduct():
 	if session.get('store'):
 		storename = dao.getStoreNameFromId(str(session.get('store')));
+		
 		return render_template('/addProduct.html', storename=storename)
+	
 	else:
+		
 		return redirect('/storeSignIn')
+
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
 	if request.method == 'POST':
 		file = request.files['file']
 		extension = os.path.splitext(file.filename)[1]
+		
 		print(extension)
+		
 		f_name = str(uuid.uuid4()) + extension
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], f_name))
+
 		return json.dumps({'filename':f_name})
+
 
 
 @app.route('/validateProduct', methods=['POST'])
@@ -434,23 +488,26 @@ def validateProduct():
 
 		if request.form.get('filePath') is None:
 			filePath = ''
+		
 		else:
 			filePath = request.form.get('filePath')
 
 		dao.storeAddProduct(name, brand, price, stock, filePath, description, session.get('store'))
+		
 		return redirect('/storeHome')
+
 
 
 @app.route('/storeLogout')
 def storeLogout():
     session.pop('store', None)
+    
     return redirect('/storeSignIn')
 
 
 
 @app.route('/storeInfo')
-def storeInfo():
-
+def storeInfo():	
 	if session.get('store'):
 		address = dao.getAddressFromId(str(session.get('store')));
 		phone = dao.getPhoneFromId(str(session.get('store')));
@@ -458,12 +515,15 @@ def storeInfo():
 		email = dao.getStoreEmailFromId(str(session.get('store')));
 
 		return render_template("storeInfo.html",address=address,phone=phone,storename=storename,email=email)
+
 	else:
+
 		return redirect('/storeSignIn')
+
+
 
 @app.route('/storeEdit',methods=['GET','POST'])
 def storeEdit():
-
 	if session.get('store'):
 		address = dao.getAddressFromId(str(session.get('store')));
 		phone = dao.getPhoneFromId(str(session.get('store')));
@@ -471,14 +531,16 @@ def storeEdit():
 		email = dao.getStoreEmailFromId(str(session.get('store')));
 
 		return render_template("storeEdit.html",address=address,phone=phone,storename=storename,email=email)
+
 	else:
+
 		return redirect('/storeSignIn')
+
+
 
 @app.route('/validateStoreEdit', methods=['POST'])
 def validateStoreEdit():
-
 	if request.method == 'POST':
-
 		storename = request.form['storename']
 		email = request.form['email']
 		phone = request.form['phone']
@@ -489,26 +551,32 @@ def validateStoreEdit():
 
 		if current_email == email or email_check == False:
 			dao.editStore(str(session.get('store')),address,phone,storename,email)
+			
 			return redirect('/storeInfo')
 
 		else:
 			flash("EMAIL JÁ CADASTRADO!")
+			
 			return redirect('/storeEdit')
+
 
 
 @app.route('/storeEditPassword', methods=['GET','POST'])
 def userStorePassword():
 	if session.get('store'):
 		storename = dao.getStoreNameFromId(str(session.get('store')));
+		
 		return render_template('storeEditPassword.html',storename=storename)
+	
 	else:
+		
 		return redirect('/storeSignIn')
+
+
 
 @app.route('/validateStoreEditPassword', methods=['POST'])
 def validateStoreEditPassword():
-
 	if request.method == 'POST':
-
 		password = request.form['password']
 		check_password = request.form['check_password']
 
@@ -520,7 +588,10 @@ def validateStoreEditPassword():
 
 		else:
 			flash("AS SENHAS NÃO COINCIDEM!")
+			
 			return redirect('/storeEditPassword')
+
+
 
 if __name__ == "__main__":
 	app.run()
